@@ -1,0 +1,17 @@
+<div>
+    <div class="col-sm-4">
+    </div>
+    <form class="col-sm-4" ng-submit="login(username, password)">
+        <div class="form-group">
+            <input class="form-control" type="text" ng-model="username" placeholder="Email" >
+        </div>
+        <div class="form-group">
+                <input class="form-control" type="password" ng-model="password" placeholder="Password" >
+        </div>
+        <p ng-if="showView" class="warningP"  >Wrong Password or Email</p>
+        <input class="btn btn-block login_button_login" type="submit" value="Login">
+        <a href="/#/register" class="btn btn-block login_button_login">Register</a>
+    </form>
+    <div class="col-sm-4">
+    </div>
+</div>

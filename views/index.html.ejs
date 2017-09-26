@@ -1,0 +1,56 @@
+<!doctype html>
+
+<html ng-app="app" lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Barter to the MAX</title>
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+
+        <script src="/js/libraries/jquery.min.js"></script>
+        <script src="/js/libraries/angular.min.js"></script>
+        <script src="/js/libraries/angular-route.min.js"></script>
+        <script src="/js/libraries/bootstrap.min.js"></script>
+
+        <script src="app.js"></script>
+        <link rel="stylesheet" href="app.css">
+
+    </head>
+
+    <body id="home_body" ng-controller="ApplicationCtrl">
+        <!-- Our View -->
+        <div id="home_view">
+
+          <nav id="home_nav_bar" class="navbar navbar-default col-md-8 col-md-offset-2">
+              <div  class="container-fluid">
+                  <a id="home_logo" href="/#/" class="navbar-brand">BTTM</a>
+                  <ul id="home_nav_ul" class="nav navbar-nav">
+                      <li><a href="/#/Barter" > Barter </a></li>
+                  </ul>
+                  <div class="collapse navbar-collapse">
+                      <ul id="home_nav_ul" class="nav navbar-nav navbar-right">
+                          <li  ng-if='!currentUser'><a class='login' href='/#/login'>Login</a></li>
+                          <li ng-if='currentUser' class="dropdown">
+                              <a  id="home_nav_drop_a" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account Manager <span class="caret"></span></a>
+                              <ul id="home_nav_drop_ul" class="dropdown-menu">
+                                  <li><a href="/#/my_items"> My Items </a></li>
+                                  <li role="separator" class="divider"></li>
+                                  <li ng-if='currentUser'><a ng-click="logout()" >Log Out</a></li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </nav>
+
+          <div class="col-md-8 col-md-offset-2" ng-view>
+          </div>
+
+        </div>
+
+    </body>
+
+</html>
