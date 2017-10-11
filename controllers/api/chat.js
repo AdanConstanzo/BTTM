@@ -11,7 +11,7 @@ function greaterString(s1,s2){
     return [s1,s2];
   return [s2,s1];
 }
-router.get('/chat/:otherUser',function(req,res,next){
+router.get('/chat/:otherUser',authenticate,function(req,res,next){
   var stringParams = greaterString(req.session.user.username,req.params.otherUser);
   var query = stringParams[0]+'-'+stringParams[1];
   Message.find({conversationId:query})
