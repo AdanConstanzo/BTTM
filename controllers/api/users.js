@@ -155,7 +155,6 @@ router.get('/users/userOpen/:username',function(req,res,next){
 // Checks for unique username for registering
 // IN: params.username; OUT:true/false
 router.get('/users/checkUsername/:username',function(req,res,next){
-  console.log(req.params.username);
     User.find({username:req.params.username}).exec(function(err,userObject){
         if(userObject[0] == undefined)
             res.send(true);
@@ -167,7 +166,6 @@ router.get('/users/checkUsername/:username',function(req,res,next){
 // Checks for unique email for registering
 // IN: params.email; OUT:true/false
 router.get('/users/checkEmail/:email',function(req,res,next){
-  console.log(req.params.email);
     User.find({email:req.params.email}).exec(function(err,userObject){
         if(userObject[0] == undefined)
             res.send(true);
