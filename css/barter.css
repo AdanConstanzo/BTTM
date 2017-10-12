@@ -1,12 +1,32 @@
 
-
-#barter_button_send{
-  width: 9%;
-}
-
 #barter_message_content{
   margin-bottom: 10px;
 }
+
+#barter_input_message{
+  border: 1px solid black;
+}
+/* scrolling bar style */
+ .scrollBarStyle::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.scrollBarStyle::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+.scrollBarStyle::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+}
+
 
 .mytext{
     border:0;padding:10px;background:whitesmoke;
@@ -37,7 +57,7 @@
 
 .screen {
   /*padding: 15px 10px;*/
-  height: 25vw;
+  height: 35vw;
   overflow-y: auto;
   overflow-x: hidden;
 }

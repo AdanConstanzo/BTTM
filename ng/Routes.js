@@ -5,6 +5,7 @@ angular.module("app")
           .when('/register',{controller:'RegisterCtrl',templateUrl:'/templates/Register.html'})
           .when('/login',{controller:'LoginCtrl',templateUrl:'/templates/Login.html'})
           .when('/barter-user-:otheruser',{controller:'BarterCtrl',templateUrl:'/templates/Barter.html'})
+          .when('/brokenLink',{templateUrl:'templates/BrokenLinkError.html'})
           .otherwise({redirectTo: '/'});
   })
   .factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){
@@ -14,8 +15,10 @@ angular.module("app")
     	},
     	responseError: function(rejection) {
     		if (rejection.status === 401) {
-    			$location.path('/login').search('returnTo', $location.path());
-    		}
+    			$location.path('/login')//.search('returnTo', $location.path());
+    		}else if( rejection.status === 404){
+          $location.path('/brokenLink')//.search('returnTo',$location.path());
+        }
     		return $q.reject(rejection);
     	}
     }
