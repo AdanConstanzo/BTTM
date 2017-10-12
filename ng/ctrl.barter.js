@@ -1,12 +1,12 @@
 angular.module("app").controller("BarterCtrl", function ($scope,$routeParams,ChatSvc,UserSvc) {
-
+  
   var barterController = {};
   barterController.otherUser = $routeParams.otheruser;
   barterController.user = "";
   $scope.otherUser = barterController.otherUser;
 
   // get's current user's name.
-  UserSvc.checkLogIn().then(function(userName){
+  UserSvc.returnSessionUserName().then(function(userName){
     barterController.user = userName;
   })
 

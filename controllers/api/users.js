@@ -14,7 +14,7 @@ var multer = require('multer');
 
 function authenticate(req, res, next) {
     if (req.session.user) { return next() }
-    return res.sendStatus(401);
+    else{ return res.sendStatus(401)}
 }
 
         /********************/
@@ -117,7 +117,8 @@ router.post('/users',function(req,res,next){
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         username: req.body.username,
-        email: req.body.email
+        email: req.body.email,
+        user_image: "images/users/blank_user.png"
     });
     // makes a hash to encrypt password.
     bcrypt.hash(req.body.password,10,function(err,hash){
@@ -135,12 +136,12 @@ router.post('/users',function(req,res,next){
 // gets current user's information
 // Requires authentication.
 // IN: params.username, Session: user, OUT:userInfo
-router.get('/users/user/:username',authenticate,function(req,res,next){
-    if(req.session.user.username == req.params.username)
-        User.find({username:req.params.username}).exec(function(err,username){
-            if(err){return next(err)}
-            res.send(username[0]);
-        });
+router.get('/users/user/accountInfo',authenticate,function(req,res,next){
+  User.find({username:req.session.user.username})
+  .exec(function(err,username){
+      if(err){return next(err)}
+      res.send(username[0]);
+  });
 });
 
 // gets users open info
