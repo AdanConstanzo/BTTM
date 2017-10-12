@@ -7,6 +7,7 @@ angular.module("app")
           .when('/barter-user-:otheruser',{controller:'BarterCtrl',templateUrl:'/templates/Barter.html'})
           .when('/brokenLink',{templateUrl:'templates/BrokenLinkError.html'})
           .when('/register-setup',{controller:'RegisterSetupCtrl',templateUrl:'/templates/RegisterSetUp.html'})
+          .when('/user',{controller:'UserCtrl',templateUrl:'/templates/User.html'})
           .otherwise({redirectTo: '/'});
   })
   .factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){

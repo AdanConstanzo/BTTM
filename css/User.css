@@ -1,0 +1,11 @@
+#user_h1{
+  font-size: 50px;
+}
+#user_h1:hover{
+  font-size: 12px;
+}
+
+#user_profile_img{
+  width: 280px;
+    border: 10px solid;
+}

@@ -4,7 +4,7 @@ angular.module('app').controller('RegisterSetupCtrl',function($scope,UserSvc){
   RegisterSetUp.username = ""
   $scope.register_setup_userImage = "images/users/blank_user.png";
   // get's current user's name.
-  UserSvc.checkLogIn().then(function(userName){
+  UserSvc.returnSessionUserName().then(function(userName){
     RegisterSetUp.username = userName;
     $scope.register_setup_username = userName;
   });
