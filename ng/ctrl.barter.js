@@ -64,4 +64,8 @@ angular.module("app").controller("BarterCtrl", function ($scope,$routeParams,Cha
     d.scrollTop = d.scrollHeight;
   }
 
+  $scope.$on('$destroy', function() {
+    socket.removeAllListeners();
+  });
+
 });

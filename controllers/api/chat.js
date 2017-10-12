@@ -29,6 +29,17 @@ function selfCheck(req,res,next){
     return next();
 }
 
+function checkOtherUser(req,res,next){
+  var otherUser = req.params.otherUser;
+  User.find({username:otherUser})
+  .exec(function(err,user){
+    if(user.length == 1)
+      return next();
+    else
+      res.sendStatus(404);
+  })
+}
+
 /*
 * Api call to retrieve all messages between two different users.
 * Requires authentication.
@@ -36,7 +47,7 @@ function selfCheck(req,res,next){
 * Also left a limit as a comment.
 * Requires the other user and grabs it by paramaters.
 */
-router.get('/chat/:otherUser',authenticate,selfCheck,function(req,res,next){
+router.get('/chat/:otherUser',authenticate,selfCheck,checkOtherUser,function(req,res,next){
   var stringParams = greaterString(req.session.user.username,req.params.otherUser);
   var query = stringParams[0]+'-'+stringParams[1];
   Message.find({conversationId:query})
