@@ -1,5 +1,5 @@
 angular.module("app").controller("BarterCtrl", function ($scope,$routeParams,ChatSvc,UserSvc) {
-  
+
   var barterController = {};
   barterController.otherUser = $routeParams.otheruser;
   barterController.user = "";
@@ -53,7 +53,8 @@ angular.module("app").controller("BarterCtrl", function ($scope,$routeParams,Cha
     var div_message = document.createElement("div");
     div_message.className = classes[0];
     var span_message = document.createElement("span");
-    span_message.innerHTML = MessageContent.body;
+    // simple approach of preventing script injection
+    span_message.innerHTML = MessageContent.body.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     span_message.className = classes[1];
     div_message.appendChild(span_message);
     div_message_list.appendChild(div_message);
