@@ -24,7 +24,7 @@ angular.module("app").controller("BarterCtrl", function ($scope,$routeParams,Cha
   document.getElementById("barter_input_message")
       .addEventListener("keyup", function(event) {
       event.preventDefault();
-      if (event.keyCode == 13) {
+      if (event.keyCode == 13 && message.value != "" ) {
         socket.emit('chat', {
             body: message.value,
             user: barterController.user
