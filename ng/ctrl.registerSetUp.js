@@ -3,6 +3,9 @@ angular.module('app').controller('RegisterSetupCtrl',function($scope,UserSvc){
   var RegisterSetUp = {};
   RegisterSetUp.username = ""
   $scope.register_setup_userImage = "images/users/blank_user.png";
+
+  UserSvc.getRegisterSession();
+
   // get's current user's name.
   UserSvc.returnSessionUserName().then(function(userName){
     RegisterSetUp.username = userName;
@@ -18,6 +21,10 @@ angular.module('app').controller('RegisterSetupCtrl',function($scope,UserSvc){
     var headers = { transformRequest:angular.identity, headers:{'Content-Type':undefined} };
     UserSvc.SetUserProfileImage(formData);
   };// End of uploadFile
+
+  $scope.continueRegister = function(){
+    UserSvc.destoryRegisterSession();
+  }
 
 });
 

@@ -26,7 +26,7 @@ var storage = multer.diskStorage({
     cb(null, 'uploads/users/profileImage/')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now()+'.jpg')
+    cb(null, file.fieldname + '-' + Date.now()+'.png')
   }
 });
 
@@ -101,9 +101,17 @@ router.get('/users/logout',function(req,res,next){
     return res.status(200).send();
 })
 
+//checks to see if there is a register session.
+router.get('/users/register/session',function(req,res,next){
+  if(req.session.register)
+    return res.sendStatus(201);
+  else
+    return res.sendStatus(404);
+})
+
 // Destroys register session
 //Session: register, OUT: status 200
-router.get('/users/register/session/destroy/',function(req,res,next){
+router.post('/users/register/session/destroy/',function(req,res,next){
   delete req.session.register;
   return res.status(200).send();
 })

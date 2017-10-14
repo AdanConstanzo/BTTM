@@ -1,7 +1,7 @@
 angular.module('app').service('UserSvc', function ($http,$q) {
 
     var svc = this;
-        
+
     svc.SetUserProfileImage = function(Form){
       return $http.post('api/users/profileImage/',Form,{ transformRequest:angular.identity, headers:{'Content-Type':undefined}}).then(function(response){
         return response.data;
@@ -92,6 +92,18 @@ angular.module('app').service('UserSvc', function ($http,$q) {
         .then(function(response){
             return response.data;
         });
+    }
+
+    // returns register session
+    svc.getRegisterSession = function(){
+      return $http.get('/api/users/register/session')
+      .then(function(response){
+        return response.data;
+      })
+    }
+
+    svc.destoryRegisterSession = function(){
+      return $http.post('/api/users/register/session/destroy/');
     }
 
 });
