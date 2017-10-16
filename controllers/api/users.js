@@ -101,6 +101,14 @@ router.get('/users/logout',function(req,res,next){
     return res.status(200).send();
 })
 
+//returs 201 or 401 based on user session
+router.get('/users/login/session/',function(req,res,next){
+  if(req.session.user)
+    return res.sendStatus(201);
+  else
+    return res.sendStatus(401);
+})
+
 //checks to see if there is a register session.
 router.get('/users/register/session',function(req,res,next){
   if(req.session.register)
@@ -148,7 +156,13 @@ router.get('/users/user/accountInfo',authenticate,function(req,res,next){
   User.find({username:req.session.user.username})
   .exec(function(err,username){
       if(err){return next(err)}
-      res.send(username[0]);
+      User.find({username:req.session.user.username})
+      .select('email')
+      .exec(function(err,email){
+        if(err){return next(err)}
+        username[0].email = email[0].email;
+        res.send(username[0]);
+      })
   });
 });
 

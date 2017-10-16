@@ -94,6 +94,14 @@ angular.module('app').service('UserSvc', function ($http,$q) {
         });
     }
 
+    //returns user session
+    // 201 or 401
+    svc.getLogInSession = function(){
+      return $http.get('/api/users/login/session').then(function(response){
+        return response.data;
+      })
+    }
+
     // returns register session
     svc.getRegisterSession = function(){
       return $http.get('/api/users/register/session')
@@ -102,6 +110,7 @@ angular.module('app').service('UserSvc', function ($http,$q) {
       })
     }
 
+    // destroys session.
     svc.destoryRegisterSession = function(){
       return $http.post('/api/users/register/session/destroy/');
     }
