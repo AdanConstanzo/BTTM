@@ -26,6 +26,22 @@ angular.module('app').controller('RegisterSetupCtrl',function($scope,UserSvc){
     UserSvc.destoryRegisterSession();
   }
 
+  // destroys the register session.
+  var destoryRegister =function(){
+    UserSvc.destoryRegisterSession();
+  }
+
+  // modifys window (browser) reload/close event.
+  window.onbeforeunload = destoryRegister;
+
+  // modifys window (browser) url change event.
+  window.onhashchange = function(event){
+    if(event.oldURL == "http://localhost:3000/#/register-setup"){
+      UserSvc.destoryRegisterSession();
+    }
+  }
+
+
 });
 
 angular.module('app').directive('customOnChange', function() {
