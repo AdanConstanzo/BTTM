@@ -11,6 +11,7 @@ angular.module('app').controller('ApplicationCtrl', function ($scope,UserSvc,$lo
     UserSvc.hasSession().then(function(response){
         if(response){
           UserSvc.getUserAccountInfo().then(function(response){
+            console.log(response);
               $scope.currentUser = response
           });
         }

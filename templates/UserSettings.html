@@ -3,11 +3,13 @@
     <fieldset id="user_settings_fieldSet" disabled>
       <div class="form-group">
         <label for="exampleInputEmail1">Change Email</label>
-        <input type="email" class="form-control" id="user_settings_input_email" placeholder="Email">
+        <p id="user_settings_check_email" style="display:none; color:red;" >That email is already taken. Please use another one.</p>
+        <input ng-blur="checkUniqueEmail()" type="email" class="form-control" id="user_settings_input_email" placeholder="Email">
       </div>
       <div class="form-group">
+        <p id="user_settings_check_username" style="display:none; color:red;" >That username is already taken. Please use another one.</p>
         <label for="exampleInputPassword1">Change Username</label>
-        <input type="text" class="form-control" id="user_settings_input_username" placeholder="Username">
+        <input ng-blur="checkUniqueUsername()" type="text" class="form-control" id="user_settings_input_username" placeholder="Username">
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">Change First Name</label>
@@ -17,20 +19,18 @@
         <label for="exampleInputPassword1">Change Last Name</label>
         <input type="text" class="form-control" id="user_settings_input_last" placeholder="Last Name">
       </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Change Password</label>
-        <input type="password" class="form-control" id="user_settings_input_pass" placeholder="Password">
-      </div>
       <button type="submit" class="btn btn-default">Confirm Changes</button>
+      <h4 id="user_settings_h3_change" style="display:none; color:green;" >Changes have been made.</h4>
     </fieldset>
-</form>
+  </form>
+  <br>
+  <a id="user_settings_a_password" href="/#/user-settings-password" class="btn btn-default" >Change Password</a>
 </div>
 <div class="col-md-4 col-md-offset-2">
-  <img style="width:100%;" src="images/users/blank_user.png" />
+  <img id="user_settings_image" style="width:100%;" src="images/users/blank_user.png" />
   <br>
   <div class="form-group">
-    <label for="exampleInputFile">File input</label>
-    <input type="file" id="exampleInputFile">
-    <p class="help-block">Example block-level help text here.</p>
+    <label for="exampleInputFile">Change Profile Picture</label>
+    <input type="file" custom-on-change="uploadFile" id="user_settings_images_input" onchange="document.getElementById('user_settings_image').src = window.URL.createObjectURL(this.files[0])" >
   </div>
 </div>

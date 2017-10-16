@@ -156,13 +156,7 @@ router.get('/users/user/accountInfo',authenticate,function(req,res,next){
   User.find({username:req.session.user.username})
   .exec(function(err,username){
       if(err){return next(err)}
-      User.find({username:req.session.user.username})
-      .select('email')
-      .exec(function(err,email){
-        if(err){return next(err)}
-        username[0].email = email[0].email;
-        res.send(username[0]);
-      })
+      res.send(username[0]);
   });
 });
 
@@ -196,5 +190,27 @@ router.get('/users/checkEmail/:email',function(req,res,next){
             res.send(false);
     });
 });
+
+router.post('/users/updateUser/',authenticate,function(req,res,next){
+  User.findByIdAndUpdate(
+    {_id: req.body._id},
+    {
+      email: req.body.email,
+      first_name:req.body.first_name,
+      last_name:req.body.last_name,
+      username:req.body.username
+    },function(err, docs){
+		    if(err) res.json(err);
+				else {
+				   var user = {};
+           user.username = req.body.username;
+           user.first_name = req.body.first_name;
+           user.last_name = req.body.last_name;
+           user.email = req.body.email;
+           req.session.user = user;
+           res.sendStatus(201);
+				}
+			 });
+})
 
 module.exports = router;

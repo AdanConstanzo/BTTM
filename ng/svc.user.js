@@ -2,6 +2,13 @@ angular.module('app').service('UserSvc', function ($http,$q) {
 
     var svc = this;
 
+    // updates user's firstname,lastname,username,email
+    // requires autentication
+    // done with session user.
+    svc.updateUserContent = function(email,firstname,lastname,username,id){
+      return $http.post('api/users/updateUser/',{email:email,first_name:firstname,last_name:lastname,username:username,_id:id});
+    }
+
     svc.SetUserProfileImage = function(Form){
       return $http.post('api/users/profileImage/',Form,{ transformRequest:angular.identity, headers:{'Content-Type':undefined}}).then(function(response){
         return response.data;
@@ -9,14 +16,14 @@ angular.module('app').service('UserSvc', function ($http,$q) {
     }
 
     //checks if username is current in db
-    svc.checkUsername = function(username){
+    svc.check_username = function(username){
         return $http.get('/api/users/checkUsername/'+username).then(function(response){
             return response.data;
         });
     };
 
     //check if email is current in db
-    svc.checkEmail = function(email){
+    svc.check_email = function(email){
         return $http.get('/api/users/checkEmail/'+email).then(function(response){
             return response.data;
         });
