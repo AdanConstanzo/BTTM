@@ -8,6 +8,7 @@ angular.module("app")
           .when('/brokenLink',{templateUrl:'templates/BrokenLinkError.html'})
           .when('/register-setup',{controller:'RegisterSetupCtrl',templateUrl:'/templates/RegisterSetUp.html'})
           .when('/user-settings',{controller:'UserSettings',templateUrl:'/templates/UserSettings.html'})
+          .when('/user-settings-password',{controller:'UserSettingsPassword',templateUrl:'/templates/UserSettingsPassword.html'})
           .otherwise({redirectTo: '/'});
   })
   .factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){

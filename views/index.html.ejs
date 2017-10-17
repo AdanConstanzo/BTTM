@@ -39,6 +39,8 @@
                               <ul id="home_nav_drop_ul" class="dropdown-menu">
                                   <li><a href="/#/my_items"> My Items </a></li>
                                   <li role="separator" class="divider"></li>
+                                  <li ng-if='currentUser'><a href="/#/user-settings">User Settings</a></li>
+                                  <li role="separator" class="divider"></li>
                                   <li ng-if='currentUser'><a ng-click="logout()" >Log Out</a></li>
                               </ul>
                           </li>
