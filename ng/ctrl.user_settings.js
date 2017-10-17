@@ -71,12 +71,20 @@ angular.module('app').controller('UserSettings',function($scope,UserSvc){
       })
   } // end of ConfirmChanges
 
-  $scope.uploadFile = function(){
+  $scope.fileUploadReady = function(){
+    document.getElementById('user_settings_submit').removeAttribute("disabled");
+    document.getElementById('user_settings_h4_imgUp').style.display = "none";
+  }
+
+  $scope.submitImage = function(){
     var formData = new FormData;
     var file = $('#user_settings_images_input')[0].files[0];
     formData.append('image',file);
-    var headers = { transformRequest:angular.identity, headers:{'Content-Type':undefined} };
-    UserSvc.SetUserProfileImage(formData);
+    var dis = document.createAttribute("disabled");
+    document.getElementById('user_settings_submit').setAttributeNode(dis);
+    UserSvc.SetUserProfileImage(formData,UserSvcObj.originalUser._id).then(function(results){
+      document.getElementById('user_settings_h4_imgUp').style.display = "block";
+    })
   };// End of uploadFile
 
 });

@@ -9,8 +9,8 @@ angular.module('app').service('UserSvc', function ($http,$q) {
       return $http.post('api/users/updateUser/',{email:email,first_name:firstname,last_name:lastname,username:username,_id:id});
     }
 
-    svc.SetUserProfileImage = function(Form){
-      return $http.post('api/users/profileImage/',Form,{ transformRequest:angular.identity, headers:{'Content-Type':undefined}}).then(function(response){
+    svc.SetUserProfileImage = function(Form,_id){
+      return $http.post('api/users/profileImage/'+_id,Form,{ transformRequest:angular.identity, headers:{'Content-Type':undefined}}).then(function(response){
         return response.data;
       })
     }
@@ -31,6 +31,7 @@ angular.module('app').service('UserSvc', function ($http,$q) {
 
     // get current users info
     // used for login user.
+    // DO NOT USE
     svc.getUser = function () {
         return $http.get('/api/users')
             .then(function (response) {

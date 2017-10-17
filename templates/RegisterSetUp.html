@@ -7,7 +7,7 @@
 
   <img id="register_setup_image" style="height:150px; width:150px;" ng-src={{register_setup_userImage}} />
   <form id="register_user_images_div_folder" ng-submit="submit()">
-      <input class="btn btn-default col-md-5" custom-on-change="uploadFile" id="register_setup_images_file" type="file"onchange="document.getElementById('register_setup_image').src = window.URL.createObjectURL(this.files[0])">
+      <input class="btn btn-default col-md-5" custom-on-change="fileUpClient" id="register_setup_images_file" type="file"onchange="document.getElementById('register_setup_image').src = window.URL.createObjectURL(this.files[0])">
   </form>
   <br>
   <a id="register_setup_next" ng-click="continueRegister()" class="btn btn-default" href="/#/" role="button">Skip</a>

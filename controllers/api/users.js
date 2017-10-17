@@ -6,7 +6,7 @@ var _      = require('lodash')
 var User   = require('../../models/User');
 var config = require('../../config');
 var multer = require('multer');
-
+var path   = require('path');
 
         /********************/
         /*   Middleware    */
@@ -26,7 +26,7 @@ var storage = multer.diskStorage({
     cb(null, 'uploads/users/profileImage/')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now()+'.png')
+    cb(null, file.fieldname + '-' + Date.now()+ path.extname(file.originalname))
   }
 });
 
@@ -41,23 +41,23 @@ var upload = multer({ storage: storage });
 // Updates user's profile image and delets previous image from upload storage.
 // Requires authentication.
 // IN: file, Session: user,
-router.post('/users/profileImage/',upload.any(),authenticate,function(req,res,next){
+router.post('/users/profileImage/:id',upload.any(),authenticate,function(req,res,next){
   var fileDest;
   if(req.files.length>0){
     fileDest = req.files[0].destination
   }else{
     return res.sendStatus(500);
   }
-
   fileDest = fileDest.replace("uploads/","");
   var publicPath = fileDest+req.files[0].filename;
   var user = req.session.user.username;
-  var oldPath = req.session.user.user_image;
-  User.update({username:user},{user_image:publicPath},function(err,docs){
+  User.findByIdAndUpdate({_id:req.params.id},{user_image:publicPath},function(err,docs){
     if(err){return next(err)}
-    if(oldPath != 'images/users/blank_user.png')
+    var oldPath = docs.user_image;
+    if(oldPath != 'images/users/blank_user.png'){
       fs.unlinkSync(__dirname+'/../../uploads/'+oldPath);
-    res.json({status:'success',newUrl:publicPath});
+    }
+    res.sendStatus(201);
   });
 });
 

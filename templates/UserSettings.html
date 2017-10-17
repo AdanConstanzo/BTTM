@@ -31,6 +31,9 @@
   <br>
   <div class="form-group">
     <label for="exampleInputFile">Change Profile Picture</label>
-    <input type="file" custom-on-change="uploadFile" id="user_settings_images_input" onchange="document.getElementById('user_settings_image').src = window.URL.createObjectURL(this.files[0])" >
+    <input type="file" custom-on-change="fileUploadReady" id="user_settings_images_input" onchange="document.getElementById('user_settings_image').src = window.URL.createObjectURL(this.files[0])" >
+    <br>
+    <a id="user_settings_submit" disabled ng-click="submitImage()" class="btn btn-default" role="button">Submit Image</a>
+    <h4 id="user_settings_h4_imgUp" style="display:none; color:green;" >Image has been uploaded.</h4>
   </div>
 </div>
