@@ -7,7 +7,7 @@ var User   = require('../../models/User');
 var config = require('../../config');
 var multer = require('multer');
 var path   = require('path');
-
+var lwip   = require('pajk-lwip');
         /********************/
         /*   Middleware    */
         /********************/
@@ -30,7 +30,29 @@ var storage = multer.diskStorage({
   }
 });
 
-var upload = multer({ storage: storage });
+// Check File Type
+function checkFileType(file, cb){
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png|gif/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
+
+  if(mimetype && extname){
+    return cb(null,true);
+  } else {
+    cb('Error: Images Only!');
+  }
+}
+
+var upload = multer({
+  storage: storage,
+  //limits:{fileSize: 1000000},
+  fileFilter: function(req, file, cb){
+    checkFileType(file, cb);
+  }
+});
 
 
         /********************/
@@ -50,15 +72,25 @@ router.post('/users/profileImage/:id',upload.any(),authenticate,function(req,res
   }
   fileDest = fileDest.replace("uploads/","");
   var publicPath = fileDest+req.files[0].filename;
-  var user = req.session.user.username;
-  User.findByIdAndUpdate({_id:req.params.id},{user_image:publicPath},function(err,docs){
-    if(err){return next(err)}
-    var oldPath = docs.user_image;
-    if(oldPath != 'images/users/blank_user.png'){
-      fs.unlinkSync(__dirname+'/../../uploads/'+oldPath);
-    }
-    res.sendStatus(201);
+  var resizePath = fileDest+'-reSized-'+req.files[0].filename;
+  lwip.open(__dirname+'/../../uploads/'+publicPath, function(err, image){
+    // check 'err'. use 'image'.
+    image.batch()
+    .resize(500,500)
+    .writeFile(__dirname+'/../../uploads/'+resizePath, function(err){
+      if(err) console.log(err)
+      User.findByIdAndUpdate({_id:req.params.id},{user_image:resizePath},function(err,docs){
+        if(err){return next(err)}
+        var oldPath = docs.user_image;
+        if(oldPath != 'images/users/blank_user.png'){
+          fs.unlinkSync(__dirname+'/../../uploads/'+oldPath);
+        }
+        fs.unlinkSync(__dirname+'/../../uploads/'+publicPath);
+        res.sendStatus(201);
+      });
+    });
   });
+
 });
 
 /********* Needs to be fixed *******/
