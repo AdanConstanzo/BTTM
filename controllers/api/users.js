@@ -171,6 +171,27 @@ router.post('/users/register/session/destroy/',function(req,res,next){
   return res.status(200).send();
 })
 
+router.post('/users/user/changepassword/',authenticate ,(req,res,next) =>{
+  User.findOne({_id:req.session.user._id})
+    .select('password')
+    .exec( (err,user) =>{
+      if(err) {return err ;}
+      if(!user) {return res.sendStatus(406);}
+      bcrypt.compare(req.body.password,user.password,(err,valid) => {
+        if(err) {return next(err);}
+        if(!valid) {return res.sendStatus(406);}
+        bcrypt.hash(req.body.new_password,10,(err,hash)=>{
+          if(err) {return next(err);}
+          user.password = hash;
+          user.save( (err) =>{
+            if(err) {return next(err);}
+            res.sendStatus(200);
+          })
+        })
+      })
+    })
+})
+
 // creates a new user based with user info and create register session
 // Also hash password for DB.
 // IN: first_name,last_name,username,email; OUT:status

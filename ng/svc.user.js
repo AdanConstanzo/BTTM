@@ -72,6 +72,12 @@ angular.module('app').service('UserSvc', function ($http,$q) {
         });
     }
 
+    svc.changePassword = function(UserPassword,NewPassword){
+      console.log(UserPassword,NewPassword);
+      return $http.post('/api/users/user/changepassword',{password:UserPassword,new_password:NewPassword})
+      .then(function(response){ return response; },function(err){ return err; })
+    }
+
     // gets username's open info.
     // must enter a username.
     // username,firstname,lastname,profilepic

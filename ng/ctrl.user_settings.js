@@ -26,7 +26,13 @@ angular.module('app').controller('UserSettings',function($scope,UserSvc){
     // Unblocks user input
     UserSvcObj.fieldset.removeAttribute("disabled");
     // Sets user image
-    UserSvcObj.user_image.src=response.user_image;
+    //!docs.user_image.hasOwnProperty('default'
+    if(response.user_image.hasOwnProperty('default')){
+      UserSvcObj.user_image.src=response.user_image.default;
+    }else{
+      UserSvcObj.user_image.src=response.user_image.path800;
+    }
+
   });
 
   $scope.checkUniqueEmail = function(){
