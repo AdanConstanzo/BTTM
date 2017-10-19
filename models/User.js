@@ -7,7 +7,7 @@ var schema = new Schema({
     username :        {type:String,required:true},
     password:         {type:String,required:true,select:false},
     email  :          {type:String,required:true},
-    user_image:       {type:String,required:true}
+    user_image:       {type:Schema.Types.Object ,required:true}
 });
 
 module.exports = mongoose.model('User',schema);

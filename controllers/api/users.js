@@ -63,7 +63,7 @@ var upload = multer({
 // Updates user's profile image and delets previous image from upload storage.
 // Requires authentication.
 // IN: file, Session: user,
-router.post('/users/profileImage/:id',upload.any(),authenticate,function(req,res,next){
+router.post('/users/profileImage/:id',upload.any(),/*authenticate,*/function(req,res,next){
   var fileDest;
   if(req.files.length>0){
     fileDest = req.files[0].destination
@@ -71,26 +71,41 @@ router.post('/users/profileImage/:id',upload.any(),authenticate,function(req,res
     return res.sendStatus(500);
   }
   fileDest = fileDest.replace("uploads/","");
-  var publicPath = fileDest+req.files[0].filename;
-  var resizePath = fileDest+'-reSized-'+req.files[0].filename;
-  lwip.open(__dirname+'/../../uploads/'+publicPath, function(err, image){
-    // check 'err'. use 'image'.
-    image.batch()
-    .resize(500,500)
-    .writeFile(__dirname+'/../../uploads/'+resizePath, function(err){
-      if(err) console.log(err)
-      User.findByIdAndUpdate({_id:req.params.id},{user_image:resizePath},function(err,docs){
-        if(err){return next(err)}
-        var oldPath = docs.user_image;
-        if(oldPath != 'images/users/blank_user.png'){
-          fs.unlinkSync(__dirname+'/../../uploads/'+oldPath);
-        }
-        fs.unlinkSync(__dirname+'/../../uploads/'+publicPath);
-        res.sendStatus(201);
-      });
-    });
-  });
+  var publicDir = __dirname+'/../../uploads/';
+  var publicPath = publicDir+fileDest+req.files[0].filename;
+  var usersImages = {};
+  usersImages.path800 = fileDest + '-reSized-800-' + req.files[0].filename;
+  usersImages.path400 = fileDest + '-reSized-400-' + req.files[0].filename;
+  usersImages.path200 = fileDest + '-reSized-200-' + req.files[0].filename;
 
+  lwip.open(publicPath, function(err, image){
+    // check 'err'. use 'imag'.
+    image.batch()
+    .resize(800,800)
+    .writeFile(publicDir+usersImages.path800, function(err){
+      if(err) console.log(err)
+      image.batch()
+      .resize(400,400)
+      .writeFile(publicDir+usersImages.path400,function(err){
+        if(err) console.log(err);
+        image.batch()
+        .resize(200,200)
+        .writeFile(publicDir+usersImages.path200,function(err){
+          if(err) console.log(err);
+          User.findByIdAndUpdate({_id:req.params.id},{user_image:usersImages},function(err,docs){
+            if(err){return next(err)}
+            if(!docs.user_image.hasOwnProperty('default')){
+              for(x in docs.user_image)
+                fs.unlink(publicDir+docs.user_image[x], (err)=>{ if(err) console.log(err);} );
+            }
+            // deletes original image.
+            fs.unlink(publicPath, (err) => {if(err) console.log(err);});
+            res.sendStatus(201);
+          });
+        })
+      })
+    })
+  });
 });
 
 /********* Needs to be fixed *******/
@@ -166,7 +181,7 @@ router.post('/users',function(req,res,next){
         last_name: req.body.last_name,
         username: req.body.username,
         email: req.body.email,
-        user_image: "images/users/blank_user.png"
+        user_image: {default:"images/users/blank_user.png"}
     });
     // makes a hash to encrypt password.
     bcrypt.hash(req.body.password,10,function(err,hash){
