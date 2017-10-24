@@ -5,6 +5,6 @@ var router = require("express").Router();
 // links our routers to the server.js
 router.use(require("./users"));
 router.use(require("./sessions"));
-
+router.use(require("./chat"));
 
 module.exports = router;

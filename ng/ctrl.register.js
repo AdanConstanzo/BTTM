@@ -5,7 +5,7 @@ angular.module('app').controller('RegisterCtrl',function($scope,$location,UserSv
     	UserSvc.register(first_name,last_name,username,password,email)
         .then(function (user) {
             $scope.$emit('login',user);
-            $location.path('/register-'+username+'-userImg');
+            $location.path('register-setup');
             window.location.reload();
         });
 
@@ -13,7 +13,7 @@ angular.module('app').controller('RegisterCtrl',function($scope,$location,UserSv
 
     $scope.checkUniqueUser = function(){
       if($scope.register_username.length>0){
-    	   UserSvc.checkUsername($scope.register_username).then(function(response){
+    	   UserSvc.check_username($scope.register_username).then(function(response){
            var label = document.getElementById('register_UserCheck');
            if(!response)
              label.style.display = "block";
@@ -25,7 +25,7 @@ angular.module('app').controller('RegisterCtrl',function($scope,$location,UserSv
 
     $scope.checkUniqueEmail = function(){
     	if($scope.register_email.length>0){
-        UserSvc.checkEmail($scope.register_email).then(function(response){
+        UserSvc.check_email($scope.register_email).then(function(response){
           var label = document.getElementById('register_EmailCheck');
           if(!response)
             label.style.display = "block";
