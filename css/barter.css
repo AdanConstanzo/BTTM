@@ -1,0 +1,149 @@
+
+#barter_message_content{
+  margin-bottom: 10px;
+}
+
+#barter_input_message{
+  border: 1px solid black;
+}
+/* scrolling bar style */
+ .scrollBarStyle::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.scrollBarStyle::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+.scrollBarStyle::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+}
+
+
+.mytext{
+    border:0;padding:10px;background:whitesmoke;
+}
+
+.text{
+    width:100%;display:flex;flex-direction:column;
+}
+.text > p:first-of-type{
+    width:100%;margin-top:0;margin-bottom:auto;line-height: 13px;font-size: 12px;
+}
+.text > p:last-of-type{
+    width:100%;text-align:right;color:silver;margin-bottom:-7px;margin-top:auto;
+}
+.text-l{
+    float:left;padding-right:10px;
+}
+.text-r{
+    float:right;padding-left:10px;
+}
+
+.container {
+  max-width: 800px;
+  width: 90%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.screen {
+  /*padding: 15px 10px;*/
+  height: 35vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.message__list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 100%;
+  position: relative;
+}
+.message__list:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.message__item {
+  max-width: 100%;
+  clear: both;
+}
+
+.message__item--bot {
+  float: left;
+}
+.message__item--bot:first-of-type .message {
+  border-top-left-radius: 20px;
+}
+.message__item--bot:last-of-type .message {
+  border-bottom-left-radius: 20px;
+}
+
+.message__item--user {
+  float: right;
+  text-align: right;
+}
+.message__item--user:first-of-type .message {
+  border-top-right-radius: 20px;
+}
+.message__item--user:last-of-type .message {
+  border-bottom-right-radius: 20px;
+}
+
+.message {
+  padding: 8px 15px;
+  margin-top: 2px;
+  display: inline-block;
+  text-align: left;
+  word-wrap:break-word;
+  max-width: 100%;
+}
+
+.message--bot {
+  background-color: #eee;
+  border-radius: 3px 20px 20px 3px;
+}
+
+.message--user {
+  background-color: #0baaff;
+  color: #fff;
+  border-radius: 20px 3px 3px 20px;
+}
+
+.bot__image {
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  border-radius: 20px;
+}
+
+.answer {
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  width: 100%;
+  padding: 10px;
+}
+
+.answer__button {
+  background-color: #0baaff;
+  border-radius: 20px;
+  color: #fff;
+  padding: 8px 15px;
+  margin-top: 2px;
+  display: inline-block;
+  cursor: pointer;
+}

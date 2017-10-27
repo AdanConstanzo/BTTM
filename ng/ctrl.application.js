@@ -10,11 +10,9 @@ angular.module('app').controller('ApplicationCtrl', function ($scope,UserSvc,$lo
 
     UserSvc.hasSession().then(function(response){
         if(response){
-            UserSvc.checkLogIn().then(function(response){
-                UserSvc.getUserPublicInfo(response).then(function(response){
-                    $scope.currentUser = response
-                });
-            });
+          UserSvc.getUserAccountInfo().then(function(response){
+              $scope.currentUser = response
+          });
         }
     });
 

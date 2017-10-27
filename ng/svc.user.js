@@ -2,68 +2,36 @@ angular.module('app').service('UserSvc', function ($http,$q) {
 
     var svc = this;
 
-    svc.CheckRegisterAndLogin = function(pageId,RegisterUserImage){
-      return svc.hasSession().then(function(response){
-        if(response){
-          svc.CheckRegister().then(function(response){
-            if(!response){
-              var error = document.getElementById(pageId);
-              error.innerHTML = "You already Register";
-            }else{
-              svc.checkLogIn().then(function(response){
-                RegisterUserImage['username'] = response;
-              });
-            }
-          });
-        }else {
-            var error = document.getElementById(pageId);
-            error.innerHTML = "Please Login In";
-            return false;
-        }
-      });
+    // updates user's firstname,lastname,username,email
+    // requires autentication
+    // done with session user.
+    svc.updateUserContent = function(email,firstname,lastname,username,id){
+      return $http.post('api/users/updateUser/',{email:email,first_name:firstname,last_name:lastname,username:username,_id:id});
     }
 
-    svc.CheckRegister = function(){
-      return $http.get('api/users/register/session/status/')
-      .then(function(response){
+    svc.SetUserProfileImage = function(Form,_id){
+      return $http.post('api/users/profileImage/'+_id,Form,{ transformRequest:angular.identity, headers:{'Content-Type':undefined}}).then(function(response){
         return response.data;
       })
     }
 
-    svc.SetUserProfileImage = function(Form){
-      return $http.post('api/users/profileImage/',Form,{ transformRequest:angular.identity, headers:{'Content-Type':undefined}}).then(function(response){
-        return response.data;
-      })
-    }
-
-    //
-    svc.destroyRegisterSession = function(){
-      return $http.get('api/users/register/session/destroy/').then(function(res){
-        return res.data;
-      })
-    }
-
-    //
-    svc.SetUserBannerObject = function(bannerObject){
-      return $http.post('api/users/SetUserBannerImage',{bannerObject:bannerObject});
-    };
-
-    //
-    svc.checkUsername = function(username){
+    //checks if username is current in db
+    svc.check_username = function(username){
         return $http.get('/api/users/checkUsername/'+username).then(function(response){
             return response.data;
         });
     };
 
-    //
-    svc.checkEmail = function(email){
+    //check if email is current in db
+    svc.check_email = function(email){
         return $http.get('/api/users/checkEmail/'+email).then(function(response){
             return response.data;
         });
     };
 
     // get current users info
-    // requires autentication
+    // used for login user.
+    // DO NOT USE
     svc.getUser = function () {
         return $http.get('/api/users')
             .then(function (response) {
@@ -71,7 +39,7 @@ angular.module('app').service('UserSvc', function ($http,$q) {
             })
     };
 
-    // log them in & sets local storage
+    // logs in user
     svc.login = function (username, password) {
         // get signature from post
         return $http.post('/api/sessions', {
@@ -80,16 +48,13 @@ angular.module('app').service('UserSvc', function ($http,$q) {
             // sets the x-auth to later compare in getUser
             $http.defaults.headers.common['X-Auth'] = response.data;
             return svc.getUser()
-        },function(err)
-        {
+        },function(err){
             return err
-        })
+        });
     };
 
-    // register a user
+    // api call to register a user.
     svc.register = function (first_name,last_name,username,password,email) {
-      console.log(username);
-      console.log(email);
         return $http.post('/api/users',{
             first_name: first_name, last_name:last_name, username: username, password:password,email:email
         }).then(function () {
@@ -97,45 +62,45 @@ angular.module('app').service('UserSvc', function ($http,$q) {
         })
     };
 
-    // get user's info with username
+    // gets current user's account info
     // requires autentication
-    svc.getUserPublicInfo = function(username){
-        return $http.get('/api/users/user/'+username).then(function(response){
+    // done with session
+    // username,email,firstname,lastname,profilepic
+    svc.getUserAccountInfo = function(){
+        return $http.get('/api/users/user/accountInfo').then(function(response){
             return response.data;
         });
     }
 
-    //
+    svc.changePassword = function(UserPassword,NewPassword){
+      console.log(UserPassword,NewPassword);
+      return $http.post('/api/users/user/changepassword',{password:UserPassword,new_password:NewPassword})
+      .then(function(response){ return response; },function(err){ return err; })
+    }
+
+    // gets username's open info.
+    // must enter a username.
+    // username,firstname,lastname,profilepic
     svc.getUserOpenInfo = function(username){
       return $http.get('/api/users/userOpen/'+username).then(function(response){return response.data; })
     }
 
-    //
-    svc.getUserImage = function(username){
-      return svc.getUserOpenInfo(username).then(function(userInfo){
-        var images = {};
-        images['userImage'] = userInfo['user_image'];
-        images['userBanner'] = userInfo['user_banner'];
-        return images
-      });
+    // api call to log out current user.
+    svc.logout = function(){
+        return $http.get('/api/users/logout');
     }
 
-    //
-    svc.logout = function()
-    {
-        return $http.get('/api/users/logout')
-    }
-
-    // return session's username
-    svc.checkLogIn = function () {
+    // requires session.
+    // return session's username.
+    svc.returnSessionUserName = function () {
         return $http.get('/api/users/user')
-        .then(function(response)
-        {
+        .then(function(response){
             return response.data
-        })
+        });
     };
 
-    // check for session.
+    // checks for session.
+    // returns true or false.
     svc.hasSession = function(){
         return $http.get('/api/users/session')
         .then(function(response){
@@ -143,14 +108,25 @@ angular.module('app').service('UserSvc', function ($http,$q) {
         });
     }
 
-    //
-    svc.deleteSingleCard = function(cardId)
-    {
-        return $http.post('/api/user/removeElement',{cardId:cardId})
-        .then(function(response)
-        {
-            return response.data
-        })
+    //returns user session
+    // 201 or 401
+    svc.getLogInSession = function(){
+      return $http.get('/api/users/login/session').then(function(response){
+        return response.data;
+      })
     }
 
-})
+    // returns register session
+    svc.getRegisterSession = function(){
+      return $http.get('/api/users/register/session')
+      .then(function(response){
+        return response.data;
+      })
+    }
+
+    // destroys session.
+    svc.destoryRegisterSession = function(){
+      return $http.post('/api/users/register/session/destroy/');
+    }
+
+});

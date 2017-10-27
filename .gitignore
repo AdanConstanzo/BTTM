@@ -2,5 +2,5 @@ assets/
 assets/**
 node_modules/
 node_modules/**
-uploads/
-uploads/**
+uploads/users/profileImage/*
+!uploads/users/profileImage/hi
