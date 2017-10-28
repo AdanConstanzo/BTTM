@@ -8,6 +8,7 @@ var config = require('../../config');
 var multer = require('multer');
 var path   = require('path');
 var lwip   = require('pajk-lwip');
+const jimp = require("jimp");
         /********************/
         /*   Middleware    */
         /********************/
@@ -64,48 +65,42 @@ var upload = multer({
 // Requires authentication.
 // IN: file, Session: user,
 router.post('/users/profileImage/:id',upload.any(),/*authenticate,*/function(req,res,next){
-  var fileDest;
-  if(req.files.length>0){
+    var fileDest;
+    if(req.files.length>0){
     fileDest = req.files[0].destination
-  }else{
+    }else{
     return res.sendStatus(500);
-  }
-  fileDest = fileDest.replace("uploads/","");
-  var publicDir = __dirname+'/../../uploads/';
-  var publicPath = publicDir+fileDest+req.files[0].filename;
-  var usersImages = {};
-  usersImages.path800 = fileDest + '-reSized-800-' + req.files[0].filename;
-  usersImages.path400 = fileDest + '-reSized-400-' + req.files[0].filename;
-  usersImages.path200 = fileDest + '-reSized-200-' + req.files[0].filename;
+    }
+    fileDest = fileDest.replace("uploads/","");
+    var publicDir = __dirname+'/../../uploads/';
+    var publicPath = publicDir+fileDest+req.files[0].filename;
+    var usersImages = {};
+    usersImages.path800 = fileDest + '-reSized-800-' + req.files[0].filename;
+    usersImages.path400 = fileDest + '-reSized-400-' + req.files[0].filename;
+    usersImages.path200 = fileDest + '-reSized-200-' + req.files[0].filename;
 
-  lwip.open(publicPath, function(err, image){
-    // check 'err'. use 'imag'.
-    image.batch()
-    .resize(800,800)
-    .writeFile(publicDir+usersImages.path800, function(err){
-      if(err) console.log(err)
-      image.batch()
-      .resize(400,400)
-      .writeFile(publicDir+usersImages.path400,function(err){
-        if(err) console.log(err);
-        image.batch()
-        .resize(200,200)
-        .writeFile(publicDir+usersImages.path200,function(err){
-          if(err) console.log(err);
-          User.findByIdAndUpdate({_id:req.params.id},{user_image:usersImages},function(err,docs){
-            if(err){return next(err)}
-            if(!docs.user_image.hasOwnProperty('default')){
-              for(x in docs.user_image)
-                fs.unlink(publicDir+docs.user_image[x], (err)=>{ if(err) console.log(err);} );
-            }
-            // deletes original image.
-            fs.unlink(publicPath, (err) => {if(err) console.log(err);});
-            res.sendStatus(201);
-          });
-        })
-      })
-    })
-  });
+    jimp.read(publicPath, function (err, image) {
+        if (err) {throw err;}
+        image.resize(800,800)
+            .write(publicDir+usersImages.path800,function (err, image){
+                image.resize(400,400)
+                .write(publicDir+usersImages.path400,function(err,image){
+                    image.resize(200,200)
+                    .write(publicDir+usersImages.path200,function(err,image){
+                        User.findByIdAndUpdate({_id:req.params.id},{user_image:usersImages},function(err,docs){
+                          if(err){return next(err)}
+                          if(!docs.user_image.hasOwnProperty('default')){
+                            for(x in docs.user_image)
+                              fs.unlink(publicDir+docs.user_image[x], (err)=>{ if(err) console.log(err);} );
+                          }
+                          // deletes original image.
+                          fs.unlink(publicPath, (err) => {if(err) console.log(err);});
+                          res.sendStatus(201);
+                        });
+                    });
+                });
+            });
+    });
 });
 
 /********* Needs to be fixed *******/
