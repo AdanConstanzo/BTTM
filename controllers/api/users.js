@@ -7,7 +7,6 @@ var User   = require('../../models/User');
 var config = require('../../config');
 var multer = require('multer');
 var path   = require('path');
-var lwip   = require('pajk-lwip');
 const jimp = require("jimp");
         /********************/
         /*   Middleware    */
