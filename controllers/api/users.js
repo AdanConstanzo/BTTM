@@ -6,8 +6,13 @@ var _      = require('lodash')
 var User   = require('../../models/User');
 var config = require('../../config');
 var multer = require('multer');
+<<<<<<< Updated upstream
 
 
+=======
+var path   = require('path');
+//var lwip   = require('pajk-lwip');
+>>>>>>> Stashed changes
         /********************/
         /*   Middleware    */
         /********************/
