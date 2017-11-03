@@ -4,4 +4,4 @@ angular.module('app').controller('UserCtrl',function($scope,UserSvc){
     $scope.User = data.username;
     $scope.userImage = data.user_image;
   })
-});
+}); //end of controller
