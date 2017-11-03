@@ -1,12 +1,27 @@
+
+
 <center>
   <h1>Welcome <strong>{{register_setup_username}}</strong> to Barter to the Max</h1>
   <h3> Here are some slides on how to use Barter to the Max </h3>
-  <div style="height: 300px; width:500px; background-color:black;">
-  </div>
-  <h3> You can also update your profile Image!</h3>
+
+
+
+<div style="height: 300px; width:500px;">
+    
+    
+
+    
+    </div>
+    
+
+
+
+
+    
+    <h3> You can also update your profile Image!</h3>
 
   <img id="register_setup_image" style="height:150px; width:150px;" ng-src={{register_setup_userImage}} />
-  <form id="register_user_images_div_folder" ng-submit="submit()">
+    <form id="register_user_images_div_folder" ng-submit="submit()">
       <input class="btn btn-default col-md-5" custom-on-change="uploadFile" id="register_setup_images_file" type="file"onchange="document.getElementById('register_setup_image').src = window.URL.createObjectURL(this.files[0])">
   </form>
   <br>
