@@ -6,5 +6,8 @@ var router = require("express").Router();
 router.use(require("./users"));
 router.use(require("./sessions"));
 router.use(require("./chat"));
+router.use(require("./trading"));
+router.use(require("./transactions"));
+
 
 module.exports = router;
