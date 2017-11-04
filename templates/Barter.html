@@ -1,8 +1,42 @@
-<center> <h3> You are currently bartering with {{otherUser}}</h3> </center>
+<center>
+  <h3> You are currently bartering with {{otherUser}}</h3>
+</center>
 <div class="container-fluid">
-  <div class="col-md-2">
+  <div class="col-md-2 yitems">
     <h3> Your Items </h3>
+    <ul id="gallery" class="gallery ui-helper-reset ui-helper-clearfix">
+      <li class="ui-widget-content ui-corner-tr">
+        <h5 class="ui-widget-header">Suga</h5>
+        <img src="/static/images/users/suga.jpg" alt="Suga from BTS" width="30" height="30">
+        <a href="/static/images/users/suga.jpg" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+        <a href="link/to/trash/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter this shit</a>
+      </li>
+      <li class="ui-widget-content ui-corner-tr">
+        <h5 class="ui-widget-header">Dodge Charger</h5>
+        <img src="/static/images/users/dodge.jpg" alt="Dodge Charger" width="30" height="30">
+        <a href="/static/images/users/dodge.jpg" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+        <a href="link/to/trash/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter this shit</a>
+      </li>
+      <li class="ui-widget-content ui-corner-tr">
+        <h5 class="ui-widget-header">lena</h5>
+        <img ng-src="/static/images/users/lena.jpg" alt="some bitch" width="30" height="30">
+        <a href="/static/images/users/lena.jpg" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+        <a href="link/to/trash/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter this shit</a>
+      </li>
+      <li class="ui-widget-content ui-corner-tr">
+        <h5 class="ui-widget-header">lena-bw</h5>
+        <img src="static/images/users/lena-small-bw.jpg" alt="some bitch in black\&white" width="30" height="30">
+        <a href="/static/images/users/lena-small-bw.jpg" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+        <a href="link/to/trash/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter this shit</a>
+      </li>
+    </ul>
+    <div id="trash" class="ui-widget-content ui-state-default">
+      <h4 class="ui-widget-header">
+        <span class="ui-icon ui-icon-trash">Trash</span> Trash</h4>
+    </div>
   </div>
+
+
   <div class="col-md-8">
     <!-- Messages get populated here -->
     <div id="barter_message_content" class="screen scrollBarStyle">
@@ -11,10 +45,10 @@
 
     <!-- Input box for messages  -->
     <div class="text" style="background:whitesmoke !important">
-        <input id="barter_input_message" class="mytext" type="text" placeholder="Type a message"/>
+      <input id="barter_input_message" class="mytext" type="text" placeholder="Type a message" />
     </div>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-2 titems">
     <h3> {{otherUser}}'s Items </h3>
   </div>
-<div>
+  <div>

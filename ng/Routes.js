@@ -7,6 +7,7 @@ angular.module("app")
           .when('/barter-user-:otheruser',{controller:'BarterCtrl',templateUrl:'/templates/Barter.html'})
           .when('/brokenLink',{templateUrl:'templates/BrokenLinkError.html'})
           .when('/register-setup',{controller:'RegisterSetupCtrl',templateUrl:'/templates/RegisterSetUp.html'})
+          .when('/barter-progress',{controller:'BarterProgCrtl', templateUrl:'/templates/Barter-progess.html'})
           .when('/user-settings',{controller:'UserSettings',templateUrl:'/templates/UserSettings.html'})
           .when('/user-settings-password',{controller:'UserSettingsPassword',templateUrl:'/templates/UserSettingsPassword.html'})
           .otherwise({redirectTo: '/'});
