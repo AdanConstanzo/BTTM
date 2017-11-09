@@ -8,6 +8,15 @@ angular.module("app")
           .when('/brokenLink',{templateUrl:'templates/BrokenLinkError.html'})
           .when('/register-setup',{controller:'RegisterSetupCtrl',templateUrl:'/templates/RegisterSetUp.html'})
           .when('/user',{controller:'UserCtrl',templateUrl:'/templates/User.html'})
+
+          .when('/About',{templateUrl:'/templates/About.html'})
+
+
+
+
+
+
+
           .otherwise({redirectTo: '/'});
   })
   .factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){
