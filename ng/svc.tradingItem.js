@@ -1,23 +1,15 @@
 angular.module("app").service("TraingItemSvc", function ($http) {
-  var svc = this;
+    var svc = this;
 
-  /*
-  name :          {type:String,required:true},
-  description :   {type:String,required:true},
-  image :         [String],
-  dateOf:         {type:Date,required:true,default: Date.now},
-  user  :         {type:String,required:true}
-  */
-
-   // /trading/addItem
-   svc.addItem  = function(tradingObject){
-       return $http.post("api/trading/addItem/"{
-           name: tradingObject.name,
-           description: tradingObject.description,
-           image: tradingObject.image,
-           user: tradingObject.user
-       }).then(function(response){
-           return response.data;
+    svc.addItem  = function(tradingObject,form){
+        return $http.post("api/trading/addItem/",tradingObject)
+        .then(function(response){
+            console.log(response);
+            return $http.put("api/trading/updateImage/"+response.data._id,form,{ transformRequest:angular.identity, headers:{'Content-Type':undefined}})
+            .then(function (response2) {
+                console.log(response2);
+                return response2.data;
+            });
        });
    }
 

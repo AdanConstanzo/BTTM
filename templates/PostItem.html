@@ -1,0 +1,17 @@
+<form class="col-md-6">
+    <div class="form-group">
+        <label>Name of Item: </label>
+        <input class="form-control" type="text"  ng-model="name_of_item" required>
+    </div>
+    <label>Detail Descriptions</label>
+    <textarea ng-model="description_of_item" class="form-control" rows="3"></textarea>
+</form>
+<div class="col-md-5 col-md-offset-1">
+    <img id="post_item_setup_image" style="height:300px; width:300px;"/>
+    <form>
+        <input class="btn btn-default" id="post_item_image" type="file"onchange="document.getElementById('post_item_setup_image').src = window.URL.createObjectURL(this.files[0])">
+    </form>
+</div>
+
+<button id="post_item_submit" type="submit" ng-click="submitPost()" class="btn">Post Item</button>
+<h3 id="post_item_h3_uploading" style="color:green; display:none;"> Uploading in progress </h3>
