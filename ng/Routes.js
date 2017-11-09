@@ -10,7 +10,7 @@ angular.module("app")
           .when('/user',{controller:'UserCtrl',templateUrl:'/templates/User.html'})
 
           .when('/About',{templateUrl:'/templates/About.html'})
-
+          .when('/Contact',{templateUrl:'/templates/Contact.html'})
 
 
 
