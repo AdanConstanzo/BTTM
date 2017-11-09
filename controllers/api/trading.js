@@ -75,18 +75,5 @@ router.put("/trading/editItems/:id",function(req,res, next){
       res.sendStatus(200);
     });
 });
-/*
-
-need .put method to edit items
-*/
-/*  User.findOne({"username":username})
-  .exec(function(err,user){
-    if(err){
-      res.send(err);
-      return;
-    }
-    res.send(user);
-  })
-  */
 
 module.exports = router;
