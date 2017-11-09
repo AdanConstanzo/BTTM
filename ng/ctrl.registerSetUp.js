@@ -20,7 +20,7 @@ angular.module('app').controller('RegisterSetupCtrl',function($scope,UserSvc){
   };// End of uploadFile
 
   $('#myCarousel').carousel({
-       interval:   3000
+       interval:   2576
    });
 
    var clickEvent = false;
