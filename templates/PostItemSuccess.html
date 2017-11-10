@@ -1,0 +1,11 @@
+<div>
+    <h1>Thanks <strong>{{postItemSuccess.user}}</strong> for posting an Item! </h1>
+    <h2> Here is a summar of what you just posted </h2>
+
+    <div>
+        <p>{{postItemSuccess.name}}</p>
+        <p>{{postItemSuccess.description}}</p>
+        <img ng-src={{postItemSuccess.image.path200}} />
+    </div>
+    <a href="/#/postItem"><h3>Click here to post another item </h3></a>
+</div>
