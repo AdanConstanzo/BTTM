@@ -1,110 +1,10 @@
 <center>
   <h3> You are currently bartering with {{otherUser}}</h3>
 </center>
-<style>
-  .draggable {
-    width: 90px;
-    height: 90px;
-    padding: 0.5em;
-    float: left;
-    margin: 0 10px 10px 0;
-  }
 
-  #draggable1 {
-    margin-bottom: 20px;
-  }
-
-  #draggable1 {
-    cursor: e-resize;
-  }
-
-  #useritems2 {
-    height: 150px;
-    border: 2px solid #ccc;
-    padding: 10px;
-  }
-
-  h3 {
-    clear: left;
-  }
-
-  #gallery {
-    float: left;
-    width: 65%;
-    min-height: 12em;
-  }
-
-  .gallery.custom-state-active {
-    background: #eee;
-  }
-
-  .gallery li {
-    float: left;
-    width: 96px;
-    padding: 0.4em;
-    margin: 0 0.4em 0.4em 0;
-    text-align: center;
-  }
-
-  .gallery li h5 {
-    margin: 0 0 0.4em;
-    cursor: move;
-  }
-
-  .gallery li a {
-    float: right;
-  }
-
-  .gallery li a.ui-icon-zoomin {
-    float: left;
-  }
-
-  .gallery li img {
-    width: 100%;
-    cursor: move;
-  }
-
-  #trash {
-    float: center;
-    width: 32%;
-    min-height: 18em;
-    padding: 1%;
-  }
-
-  #trash h4 {
-    line-height: 16px;
-    margin: 0 0 0.4em;
-  }
-
-  #trash h4 .ui-icon {
-    float: left;
-  }
-
-  #trash .gallery h5 {
-    display: none;
-  }
-</style>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-  function allowDrop(ev) {
-    ev.preventDefault();
-  }
-
-  function drag(ev) {
-    ev.dataTransfer.setData("Text", ev.target.id);
-  }
-
-  function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("Text");
-    ev.target.appendChild(document.getElementById(data));
-  }
-</script>
 <div class="container-fluid">
 
-
- <!-- <div class="row"> -->
+  <div class="row">
     <div class="col-md-12">
       <!-- Messages get populated here -->
       <div id="barter_message_content" class="screen scrollBarStyle">
@@ -119,29 +19,38 @@
   </div>
 
 
-  <!-- ol(> trading screen -->
   <div class="row">
-    <div class="col-md-4 yitems" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <h3> Your Items </h3>
-      <ul>
-        <li>
-          <img id="drag1" src="https://i.imgur.com/DVBEUKt.jpg" draggable="true" ondragstart="drag(event)" width="36" height="69" alt="suck my dick">
+    <div class="col-md-8 ui-widget ui-helper-clearfix">
+      <p>Your Items</p>
+      <ul id="gallery" class="gallery ui-helper-reset ui-helper-clearfix">
+        <li class="ui-widget-content ui-corner-tr">
+          <h5 class="ui-widget-header">Suga</h5>
+          <img src="https://i.imgur.com/DVBEUKt.jpg" alt="Suga 4rm BTS" width="96" height="72">
+          <a href="https://i.imgur.com/DVBEUKt.jpg" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+          <a href="C:/Users/Iovanni/Desktop/BTTM/BTTM/templates/link/to/trash/script/when/we/have/js/off" title="Barter this image"
+            class="ui-icon ui-icon-trash">Barter Item</a>
         </li>
-        <li>
-          <img id="drag1" src="https://i.imgur.com/wmpnsRz.png" draggable="true" ondragstart="drag(event)" width="36" height="69" alt="suck my titties">
+        <li class="ui-widget-content ui-corner-tr">
+          <h5 class="ui-widget-header">Adan</h5>
+          <img src="https://i.imgur.com/wmpnsRz.png" alt="Adan" width="96" height="72">
+          <a href="https://i.imgur.com/wmpnsRz.png" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+          <a href="link/to/trash/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter Item</a>
         </li>
       </ul>
-    </div>
 
-    <div class="col-md-4" id="useritems2" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <h4>Bartering Area</h4>
-      <br>
+      <div id="trash" style="background: red" class="col-md-4 ui-widget-content ui-state-default">
+        <h4 class="ui-widget-header">
+          <span class="ui-icon ui-icon-trash">Trash</span> Bartering Area</h4>
+      </div>
+
     </div>
+    <!-- ol(> trading screen -->
+
+
 
     <div class="col-md-4 titems">
       <h3> {{otherUser}}'s Items </h3>
     </div>
 
   </div>
-  <br>
 </div>

@@ -10,6 +10,8 @@ angular.module("app")
           .when('/barter-progress',{controller:'BarterProgCrtl', templateUrl:'/templates/Barter-progess.html'})
           .when('/user-settings',{controller:'UserSettings',templateUrl:'/templates/UserSettings.html'})
           .when('/user-settings-password',{controller:'UserSettingsPassword',templateUrl:'/templates/UserSettingsPassword.html'})
+          .when("/postItem", {controller:"PostItemCtrl", templateUrl:"/templates/PostItem.html"})
+          .when("/postSuccessfull-:id", {controller:"PostItemSuccessCtrl", templateUrl:"/templates/PostItemSuccess.html"})
           .otherwise({redirectTo: '/'});
   })
   .factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){
