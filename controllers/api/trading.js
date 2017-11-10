@@ -43,7 +43,6 @@ var upload = multer({
 //creates a new item
 
 router.post('/trading/addItem',function(req,res, next){
-    console.log(req.body);
   var tempTrade = new Trade({
     name:req.body.name,
     description:req.body.description,
@@ -99,7 +98,6 @@ router.get("/trading/getItems/:username",function(req,res,next){
   .exec(function(err,user){
     if(err) {return next(err)}
     if(user.length == 0){
-      console.log("hi bob")
       res.sendStatus(401);
       return;
     }

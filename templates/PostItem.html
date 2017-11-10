@@ -1,13 +1,16 @@
 <form class="col-md-6">
     <div class="form-group">
         <label>Name of Item: </label>
+        <p id="post_item_error_name" style="color:red; display: none;">Error! Missing Name</p>
         <input class="form-control" type="text"  ng-model="name_of_item" required>
     </div>
     <label>Detail Descriptions</label>
+    <p id="post_item_error_description" style="color:red; display: none;">Error! Missing Details</p>
     <textarea ng-model="description_of_item" class="form-control" rows="3"></textarea>
 </form>
 <div class="col-md-5 col-md-offset-1">
     <img id="post_item_setup_image" style="height:300px; width:300px;"/>
+    <p id="post_item_error_image" style="color:red; display:none;">Error! Missing Picture</p>
     <form>
         <input class="btn btn-default" id="post_item_image" type="file"onchange="document.getElementById('post_item_setup_image').src = window.URL.createObjectURL(this.files[0])">
     </form>
