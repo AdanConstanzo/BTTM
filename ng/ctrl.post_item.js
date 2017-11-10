@@ -1,4 +1,4 @@
-angular.module("app").controller("PostItemCtrl",function($scope,$location,UserSvc,TraingItemSvc){
+angular.module("app").controller("PostItemCtrl",function($scope,$location,UserSvc,TradingItemSvc){
 
     $scope.getUser = "";
     $scope.name_of_item ="";
@@ -49,7 +49,7 @@ angular.module("app").controller("PostItemCtrl",function($scope,$location,UserSv
             return;
         }
 
-        TraingItemSvc.addItem(tradingObject,formData)
+        TradingItemSvc.addItem(tradingObject,formData)
             .then(function (response) {
                 console.log(response);
                 $location.path('/postSuccessfull-'+response._id);

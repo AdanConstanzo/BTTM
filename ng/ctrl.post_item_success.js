@@ -1,6 +1,6 @@
-angular.module("app").controller("PostItemSuccessCtrl",function($scope,$routeParams,TraingItemSvc){
+angular.module("app").controller("PostItemSuccessCtrl",function($scope,$routeParams,TradingItemSvc){
     $scope.postItemSuccess = {}
-    TraingItemSvc.getItemById($routeParams.id)
+    TradingItemSvc.getItemById($routeParams.id)
         .then(function (response) {
             $scope.postItemSuccess = response;
             console.log(response);

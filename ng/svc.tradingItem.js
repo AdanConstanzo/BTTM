@@ -1,4 +1,4 @@
-angular.module("app").service("TraingItemSvc", function ($http) {
+angular.module("app").service("TradingItemSvc", function ($http) {
     var svc = this;
 
     svc.addItem  = function(tradingObject,form){
