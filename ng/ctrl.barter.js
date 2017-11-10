@@ -21,7 +21,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
     });
 
     $(function () {
-      $(#draggable1).draggable({ containment: "#useritems, scroll" })
+      $("#draggable1").draggable({ containment: "#useritems, scroll" })
     });
 
     // Let the pool be droppable, accepting the gallery items
