@@ -7,10 +7,6 @@ router.use(require("./users"));
 router.use(require("./sessions"));
 router.use(require("./chat"));
 router.use(require("./trading"));
-<<<<<<< HEAD
-//router.use(require("./transactions"));
-=======
->>>>>>> back-end-dev-adan
 
 
 module.exports = router;
