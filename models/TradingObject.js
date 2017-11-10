@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
     name :          {type:String,required:true},
     description :   {type:String,required:true},
-    image :         [String],
+    image :         {type:Schema.Types.Object ,required:true},
     dateOf:         {type:Date,required:true,default: Date.now},
     user  :         {type:String,required:true}
 
