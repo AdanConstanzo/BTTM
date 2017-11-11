@@ -1,0 +1,56 @@
+
+<div class="row">
+    <h1 class="col-md-8">{{Users.username}}'s Items for barter</h1>
+    <img class="img-circle col-md-4" style="width:175px;height:150px;" ng-src={{Users.user_image.path200}} />
+</div>
+
+
+<div ng-repeat="x in UserItems">
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <img ng-src={{x.image.path200}} alt="{{x.name}}" style="height:150px; width:150px;">
+            <div class="caption">
+              <p>{{x.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/w3images/lights.jpg">
+        <img src="/w3images/lights.jpg" alt="Lights" style="width:100%">
+        <div class="caption">
+          <p>Lorem ipsum...</p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/w3images/nature.jpg">
+        <img src="/w3images/nature.jpg" alt="Nature" style="width:100%">
+        <div class="caption">
+          <p>Lorem ipsum...</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/w3images/fjords.jpg">
+        <img src="/w3images/fjords.jpg" alt="Fjords" style="width:100%">
+        <div class="caption">
+          <p>Lorem ipsum...</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+-->
