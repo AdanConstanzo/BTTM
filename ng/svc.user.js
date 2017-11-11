@@ -54,13 +54,20 @@ angular.module('app').service('UserSvc', function ($http,$q) {
     };
 
     // api call to register a user.
-    svc.register = function (first_name,last_name,username,password,email) {
+    svc.register = function (first_name,last_name,username,password,email,city,state) {
         return $http.post('/api/users',{
-            first_name: first_name, last_name:last_name, username: username, password:password,email:email
-        }).then(function () {
+            first_name: first_name, last_name:last_name, username: username, password:password,email:email,location: {city:city,state:state}
+        }).then(function (response) {
+            console.log(response);
+            svc.calculateLatLng(response.data._id,city,state);
             return svc.login(username,password);
         })
     };
+
+    svc.calculateLatLng = function(_id,city,state){
+        console.log("HIT");
+        return $http.put("/api/users/updateLatLong/" + _id +"-"+city+"-"+state)
+    }
 
     // gets current user's account info
     // requires autentication

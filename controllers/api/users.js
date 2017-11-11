@@ -8,6 +8,8 @@ var config = require('../../config');
 var multer = require('multer');
 var path   = require('path');
 const jimp = require("jimp");
+const geocoder = require('geocoder');
+
         /********************/
         /*   Middleware    */
         /********************/
@@ -196,7 +198,8 @@ router.post('/users',function(req,res,next){
         last_name: req.body.last_name,
         username: req.body.username,
         email: req.body.email,
-        user_image: {default:"images/users/blank_user.png"}
+        user_image: {default:"images/users/blank_user.png"},
+        location: req.body.location
     });
     // makes a hash to encrypt password.
     bcrypt.hash(req.body.password,10,function(err,hash){
@@ -204,10 +207,23 @@ router.post('/users',function(req,res,next){
         user.password = hash;
         req.session.register = true;
         //saves user to db.
-        user.save(function (err) {
+        user.save(function (err,prog) {
             if (err) { return next(err) }
-            res.sendStatus(201)
+            res.json({"status":"success","_id":prog._id});
         });
+    });
+});
+
+router.put("/users/updateLatLong/:_id"+"-:city"+"-:state", function (req, res, next) {
+    var query = req.params.city+", "+req.params.state;
+    geocoder.geocode(query, function ( err, data ) {
+        if (data.status === "OK") {
+            User.findByIdAndUpdate( {_id: req.params._id}, {
+                geocode: {lat:data.results[0].geometry.location.lat,lng:data.results[0].geometry.location.lng}
+            } ,function(err){
+                res.sendStatus(200);
+            });
+        }
     });
 });
 

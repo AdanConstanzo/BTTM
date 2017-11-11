@@ -1,6 +1,6 @@
 <div id="register_div_main" class="col-md-6 col-md-offset-3">
   <h3 id="register_h3_signUp">Sign Up</h3>
-  <form class="register_form_info" ng-submit="register(first_name,last_name,register_username, password,register_email)">
+  <form class="register_form_info" ng-submit="register(first_name,last_name,register_username, password,register_email,city,state)">
       <div class="form-group">
           <label>First Name:</label>
           <input class="form-control" type="text"  ng-model="first_name" required>
@@ -22,6 +22,14 @@
       <div class="form-group">
           <label>Password:</label>
           <input class="form-control" type="password" ng-model="password" required>
+      </div>
+      <div class="form-group">
+          <label>City:</label>
+          <input class="form-control" type="text" ng-model="city" required>
+      </div>
+      <div class="form-group">
+          <label>State:</label>
+          <input class="form-control" type="text" ng-model="state" required>
       </div>
       <button id="register_button_signUp" type="submit" class="btn">Sign Up</button>
 
