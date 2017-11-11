@@ -1,0 +1,16 @@
+Seed contains 4 accounts.
+
+user:a
+pass:a
+
+user:b
+pass:b
+
+user:liljen
+pass:liljen
+
+user:littl_mac
+pass:littl_mac
+
+
+Also each user has their own items.

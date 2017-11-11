@@ -67,9 +67,9 @@ router.put("/trading/updateImage/:_id",upload.any(), function(req,res,next) {
     var publicDir = __dirname+'/../../uploads/';
     var publicPath = publicDir+fileDest+req.files[0].filename;
     var usersImages = {};
-    usersImages.path800 = fileDest + '-reSized-800-' + req.files[0].filename;
-    usersImages.path400 = fileDest + '-reSized-400-' + req.files[0].filename;
-    usersImages.path200 = fileDest + '-reSized-200-' + req.files[0].filename;
+    usersImages.path800 = fileDest + '-reSized-800-item-' + req.files[0].filename;
+    usersImages.path400 = fileDest + '-reSized-400-item-' + req.files[0].filename;
+    usersImages.path200 = fileDest + '-reSized-200-item-' + req.files[0].filename;
 
     jimp.read(publicPath, function (err, image) {
         if (err) {throw err;}
