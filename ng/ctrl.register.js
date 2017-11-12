@@ -1,8 +1,8 @@
 angular.module('app').controller('RegisterCtrl',function($scope,$location,UserSvc){
 
     // register user that talks to service
-    $scope.register = function(first_name,last_name,username,password,email){
-    	UserSvc.register(first_name,last_name,username,password,email)
+    $scope.register = function(first_name,last_name,username,password,email,city,state){
+    	UserSvc.register(first_name,last_name,username,password,email,city,state)
         .then(function (user) {
             $scope.$emit('login',user);
             $location.path('register-setup');

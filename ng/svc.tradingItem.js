@@ -53,4 +53,16 @@ angular.module("app").service("TradingItemSvc", function ($http) {
         })
   }
 
+  svc.getItemFromCityState = function (GeoObject) {
+      return $http.get("api/trading/grabItemByCity-State/"+GeoObject.city+"-"+GeoObject.state)
+        .then(function (response) {
+            if(response.data[0].status === "ERROR") {
+                return response.data;
+            } else {
+                response.data.shift();
+                return response.data;
+            }
+        })
+  }
+
 }) /* End of ChatSvc*/

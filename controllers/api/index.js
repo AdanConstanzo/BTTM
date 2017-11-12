@@ -9,6 +9,6 @@ router.use(require("./chat"));
 router.use(require("./trading"));
 router.use(require("./transactionsCompleted"));
 router.use(require("./transactionsPending"));
-
+router.use(require("./geo"))
 
 module.exports = router;

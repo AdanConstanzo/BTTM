@@ -6,6 +6,7 @@ angular.module("app").controller("PostItemCtrl",function($scope,$location,UserSv
 
     UserSvc.getUserAccountInfo().then(function(UserObject){
       $scope.getUser = UserObject.username;
+      $scope.UserId = UserObject._id;
     });
 
 
@@ -27,6 +28,7 @@ angular.module("app").controller("PostItemCtrl",function($scope,$location,UserSv
         tradingObject.name = $scope.name_of_item;
         tradingObject.description = $scope.description_of_item;
         tradingObject.user = $scope.getUser;
+        tradingObject.user_id = $scope.UserId;
 
         for(x in tradingObject) {
             if(tradingObject[x] === null || tradingObject[x] === undefined || tradingObject[x].length <= 0){
