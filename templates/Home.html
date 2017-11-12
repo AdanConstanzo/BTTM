@@ -1,2 +1,4 @@
 <h1> THIS IS MY CASA </h1>
-  <h5>Welcome to BTTM </h5>
+
+<p ng-if="UserGeo != null">Location: {{UserGeo.city}}, {{UserGeo.state}}</p>
+<p ng-if="UserGeo == null">Location: Can't Determine Location</p>

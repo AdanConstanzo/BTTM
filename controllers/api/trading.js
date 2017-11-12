@@ -47,7 +47,8 @@ router.post('/trading/addItem',function(req,res, next){
     name:req.body.name,
     description:req.body.description,
     image: {image:"nope"},
-    user:req.body.user
+    user:req.body.user,
+    user_id: req.body.user_id
   });
   tempTrade.save(function(err,prog){
     if(err){return next(err)}
@@ -98,11 +99,26 @@ router.get("/trading/getItems/:username",function(req,res,next){
   .exec(function(err,user){
     if(err) {return next(err)}
     if(user.length == 0){
-      res.sendStatus(401);
+      res.send([{"status":"ERROR","description":"Empty number of items"}]);
       return;
     }
+    user.unshift({"status": "OK"})
     res.send(user);
   })
+})
+
+router.get("/trading/getItemsByUsrID/:user_id", function(req, res, next) {
+    var userId = req.params.user_id;
+    Trad.find({"user_id":userId})
+        .exec(function (err,items) {
+            if(err) {return next(err)}
+            if(user.length == 0){
+              res.send([{"status":"ERROR","description":"Empty number of items"}]);
+              return;
+            }
+            user.unshift({"status": "OK"})
+            res.send(user);
+        })
 })
 
 router.get("/trading/getItems/findOne/:id",function(req,res,next){
@@ -157,5 +173,34 @@ need .put method to edit items
     res.send(user);
   })
   */
+
+  router.get("/trading/grabItemByCity-State/:city"+"-"+":state", function (req,res,next) {
+      var p_city = req.params.city;
+      var p_state = req.params.state;
+
+      var Collection = [];
+      var count = 0;
+      User.find({"location.city": p_city, "location.state": p_state})
+        .exec(function (err,Users) {
+            if(!Users || Users.length === 0) {
+                res.send([{"status":"ERROR","description":"no users in current location"}]);
+                return;
+            }
+            Collection.push({"status":"OK"});
+            for(x in Users) {
+                Trade.find({"user_id": Users[x]._id})
+                .exec(function (err,Items) {
+
+                    if (Items.length > 0 )
+                        Collection.push(Items);
+
+                    count ++;
+
+                    if(count === Users.length)
+                        res.send(Collection);
+                });
+            }
+        });
+  })
 
 module.exports = router;
