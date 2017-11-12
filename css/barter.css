@@ -167,7 +167,7 @@
 #trash { float: center; width: 32%; min-height: 15em; padding: 1%; }
 #trash h4 { line-height: 16px; margin: 0 0 0.4em; }
 #trash h4 .ui-icon { float: left; }
-#trash .gallery2 h5 { display: none; }
+#trash .gallery h5 { display: none; }
 
 #trash2 { float: center; width: 32%; min-height: 15em; padding: 1%; }
 #trash2 h4 { line-height: 16px; margin: 0 0 0.4em; }

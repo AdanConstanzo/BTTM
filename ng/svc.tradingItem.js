@@ -23,6 +23,7 @@ angular.module("app").service("TradingItemSvc", function ($http) {
   svc.getAllUserTradingItems = function (username) {
       return $http.get("api/trading/getItems/"+username)
         .then(function (allItem) {
+            allItem.data.shift();
             return allItem.data;
         });
   }
