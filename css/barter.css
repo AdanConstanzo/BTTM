@@ -57,7 +57,7 @@
 
 .screen {
   /*padding: 15px 10px;*/
-  height: 35vw;
+  height: 150px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -147,3 +147,36 @@
   display: inline-block;
   cursor: pointer;
 }
+
+#gallery { float: left; width: 65%; min-height: 12em; }
+.gallery.custom-state-active { background: #eee; }
+.gallery li { float: left; width: 96px; padding: 0.4em; margin: 0 0.4em 0.4em 0; text-align: center; }
+.gallery li h5 { margin: 0 0 0.4em; cursor: move; }
+.gallery li a { float: right; }
+.gallery li a.ui-icon-zoomin { float: left; }
+.gallery li img { width: 100%; cursor: move; }
+
+#gallery2 { float: left; width: 65%; min-height: 12em; }
+.gallery2.custom-state-active { background: #eee; }
+.gallery2 li { float: left; width: 96px; padding: 0.4em; margin: 0 0.4em 0.4em 0; text-align: center; }
+.gallery2 li h5 { margin: 0 0 0.4em; cursor: move; }
+.gallery2 li a { float: right; }
+.gallery2 li a.ui-icon-zoomin { float: left; }
+.gallery2 li img { width: 100%; cursor: move; }
+
+#trash { float: center; width: 32%; min-height: 15em; padding: 1%; }
+#trash h4 { line-height: 16px; margin: 0 0 0.4em; }
+#trash h4 .ui-icon { float: left; }
+#trash .gallery2 h5 { display: none; }
+
+#trash2 { float: center; width: 32%; min-height: 15em; padding: 1%; }
+#trash2 h4 { line-height: 16px; margin: 0 0 0.4em; }
+#trash2 h4 .ui-icon { float: left; }
+#trash2 .gallery2 h5 { display: none; }
+
+.draggable { width: 90px; height: 90px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+#draggable, #draggable2 { margin-bottom:20px; }
+#draggable { cursor: n-resize; }
+#draggable2 { cursor: e-resize; }
+#containment-wrapper { width: 95%; height:350px; border:2px solid aqua; padding: 10px;}
+#containment-wrapper2 { width: 95%; height:350px; border:2px solid crimson; padding: 10px;}

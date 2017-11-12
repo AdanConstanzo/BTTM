@@ -1,20 +1,91 @@
-<center> <h3> You are currently bartering with {{otherUser}}</h3> </center>
+<center>
+  <h3> You are currently bartering with {{otherUser}}</h3>
+</center>
+
+
+
 <div class="container-fluid">
-  <div class="col-md-2">
-    <h3> Your Items </h3>
-  </div>
-  <div class="col-md-8">
-    <!-- Messages get populated here -->
-    <div id="barter_message_content" class="screen scrollBarStyle">
 
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Messages get populated here -->
+      <div id="barter_message_content" class="screen scrollBarStyle">
+
+      </div>
+
+      <!-- Input box for messages  -->
+      <div class="text" style="background:whitesmoke !important">
+        <input id="barter_input_message" class="mytext" type="text" placeholder="Type a message" />
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-md-6 ui-widget ui-helper-clearfix">
+      <div id="containment-wrapper">
+        <p>Your Items</p>
+        <ul id="gallery" class="gallery ui-helper-reset ui-helper-clearfix">
+          <li id="draggable3" class="draggable ui-widget-content ui-corner-tr">
+            <h5 class="ui-widget-header">Suga</h5>
+            <img src="https://i.imgur.com/DVBEUKt.jpg" alt="Suga 4rm BTS" width="96" height="72">
+            <a href="https://i.imgur.com/DVBEUKt.jpg" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+            <a href="link/to/trash/script/when/we/have/js/off" title="Barter this image" class="ui-icon ui-icon-trash">Barter Item</a>
+          </li>
+          <li class="ui-widget-content ui-corner-tr">
+            <h5 class="ui-widget-header">Adan</h5>
+            <img src="https://i.imgur.com/wmpnsRz.png" alt="Adan" width="96" height="72">
+            <a href="https://i.imgur.com/wmpnsRz.png" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+            <a href="link/to/trash/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter Item</a>
+          </li>
+          <li class="ui-widget-content ui-corner-tr">
+            <h5 class="ui-widget-header">Adan</h5>
+            <img src="https://i.imgur.com/wmpnsRz.png" alt="Adan" width="96" height="72">
+            <a href="https://i.imgur.com/wmpnsRz.png" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+            <a href="link/to/trash/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter Item</a>
+          </li>
+        </ul>
+
+        <div id="trash" class="col-md-3 ui-widget-content ui-state-default">
+          <h4 class="ui-widget-header">
+            <span class="ui-icon ui-icon-trash">Trash</span> Your offer</h4>
+        </div>
+      </div>
     </div>
 
-    <!-- Input box for messages  -->
-    <div class="text" style="background:whitesmoke !important">
-        <input id="barter_input_message" class="mytext" type="text" placeholder="Type a message"/>
+    <!-- ol(> trading screen -->
+    <div class="col-md-6 ui-widget ui-helper-clearfix">
+      <div id="containment-wrapper2">
+          <p>{{otherUser}}'s Items</p>
+          <ul id="gallery2" class="gallery2 ui-helper-reset ui-helper-clearfix">
+            <li id="draggable3" class="draggable ui-widget-content ui-corner-tr">
+              <h5 class="ui-widget-header">Suga</h5>
+              <img src="https://i.imgur.com/DVBEUKt.jpg" alt="Suga 4rm BTS" width="96" height="72">
+              <a href="https://i.imgur.com/DVBEUKt.jpg" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+              <!-- <a href="link/to/trash2/script/when/we/have/js/off" title="Barter this image" class="ui-icon ui-icon-trash">Barter Item</a> -->
+            </li>
+            <li class="ui-widget-content ui-corner-tr">
+              <h5 class="ui-widget-header">Adan</h5>
+              <img src="https://i.imgur.com/wmpnsRz.png" alt="Adan" width="96" height="72">
+              <a href="https://i.imgur.com/wmpnsRz.png" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+              <!-- <a href="link/to/trash2/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter Item</a> -->
+            </li>
+            <li class="ui-widget-content ui-corner-tr">
+              <h5 class="ui-widget-header">Adan</h5>
+              <img src="https://i.imgur.com/wmpnsRz.png" alt="Adan" width="96" height="72">
+              <a href="https://i.imgur.com/wmpnsRz.png" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+              <!-- <a href="link/to/trash2/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter Item</a> -->
+            </li>
+          </ul>
+  
+          <div id="trash2" class="col-md-3 ui-widget-content ui-state-default">
+            <h4 class="ui-widget-header">
+              <span class="ui-icon ui-icon-trash">Trash</span> {{otherUser}}'s offer</h4>
+          </div>
+      </div>
     </div>
+
   </div>
-  <div class="col-md-2">
-    <h3> {{otherUser}}'s Items </h3>
-  </div>
-<div>
+
+</div>
