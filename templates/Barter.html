@@ -58,3 +58,32 @@
         </div>
     </div>
 </div> <!-- End of row -->
+
+<div id="collectionOfModals" />
+  <a id="try" data-toggle="modal" data-target="#try">Trigger It </a>
+    <div class="modal fade" id="try" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <center><h2>A's Trading Offer To B</h2></center>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div id="UserDiv" class="col-md-5">
+                            <img ng-repeat="x in userImage" style="width: 100px; height:120px;" ng-src={{x.image.path200}} />
+                        </div>
+                        <div class="col-md-2">
+                            <img width="100%;" src="images/trade.png" />
+                        </div>
+                        <div id="OtherUserDiv" class="col-md-5">
+                            <img ng-repeat="x in otherImage" style="width: 100px; height:120px;" ng-src={{x.image.path200}} />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <center><h2>Yes or No</h2></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

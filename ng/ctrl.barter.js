@@ -121,6 +121,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
 
   TradingItemSvc.getAllUserTradingItems($routeParams.otheruser)
     .then(function (OtherUserItems) {
+        $scope.otherImage = OtherUserItems;
         var gallery2 = document.getElementById("gallery2");
         for (x in OtherUserItems) {
             gallery2.appendChild(createLiItemHtml(OtherUserItems[x]));
@@ -145,6 +146,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
       li.appendChild(h5);
       li.appendChild(img);
       li.appendChild(a_bart);
+      li.setAttribute("data",item);
       return li;
   }
 
@@ -154,6 +156,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
     barterController.user = userName;
     TradingItemSvc.getAllUserTradingItems(userName)
         .then(function (CurrentUserItems) {
+            $scope.userImage = CurrentUserItems;
             var gallery = document.getElementById("gallery");
             for( x in CurrentUserItems) {
                 gallery.appendChild(createLiItemHtml(CurrentUserItems[x]));
@@ -225,6 +228,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
       document.getElementById("barter_h4_error").style.display = "block";
   }
 
+  // ng-click that submits offers.
   $scope.SubmitOffer = function() {
       document.getElementById("barter_h4_error").style.display = "none";
 
@@ -244,8 +248,112 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
           return;
       }
 
-      
+      var modalCreation = createModal(galler1,galler2);
 
+      document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
+      document.getElementById("try").setAttribute("data-target","#"+modalCreation[1]);
+      console.log("complet");
   }
+
+  function createModal (UsersItems,OtherUserItems) {
+
+      var user = barterController.user,
+      otherUser = $routeParams.otheruser;
+
+      var modalDiv = document.createElement("div"),
+      modalDialog = document.createElement("div"),
+      modalContent = document.createElement("div"),
+      modalHeader = document.createElement("div"),
+      modalBody = document.createElement("div"),
+      modalFooter = document.createElement("div");
+      var hash = makeHash(user+"-"+otherUser+new Date().getTime());
+      modalDiv.className = "modal fade";
+      modalDiv.id = hash;
+      modalDialog.className = "modal-dialog";
+      modalContent.className = "modal-content";
+      modalHeader.className = "modal-header";
+      modalBody.className = "modal-body";
+      modalFooter.className = "modal-footer";
+      var headerString = user + "'s Tradding Offer To " + otherUser;
+      var h2_title = document.createElement("h2");
+      h2_title.innerHTML = headerString;
+      modalHeader.appendChild(h2_title);
+
+      var divRow = document.createElement("div");
+      divRow.className = "row";
+      modalBody.appendChild(divRow);
+      var divBody1 = document.createElement("div"),
+      divBody2 = document.createElement("div"),
+      divBody3 = document.createElement("div");
+
+      divBody1.className = "col-md-5";
+      divBody2.className = "col-md-2";
+      divBody3.className = "col-md-5";
+
+      var img = document.createElement("img");
+      img.src = "images/trade.png";
+      img.style.width = "50px";
+      img.style.height = "50px";
+
+      createImageItem(UsersItems,divBody1);
+      createImageItem(OtherUserItems,divBody3);
+      divBody2.appendChild(img);
+      divRow.appendChild(divBody1);
+      divRow.appendChild(divBody2);
+      divRow.appendChild(divBody3);
+
+      modalFooter.innerHTML = "<h2> Yes or No </h2>";
+
+      modalContent.appendChild(modalHeader);
+      modalContent.appendChild(modalBody);
+      modalContent.appendChild(modalFooter);
+      modalDialog.appendChild(modalContent);
+      modalDiv.appendChild(modalDialog);
+
+      return [modalDiv,hash];
+  }
+
+  function createImageItem (items,div) {
+      for (var i = 0; i < items.children.length; i++) {
+          var h5 = items.children[i].children[0];
+          var img = items.children[i].children[1];
+          var newImg = document.createElement("img");
+          newImg.src = img.src;
+          newImg.style.width = "100px";
+          newImg.style.height = "120px";
+          newImg.title = h5.innerHTML;
+          div.appendChild(newImg);
+      }
+  }
+
+  function makeHash(s) {
+    var hash = 0,
+      i, char;
+    if (s.length == 0) return hash;
+    for (i = 0, l = s.length; i < l; i++) {
+      char = s.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  };
+
+  //console.log(galler1.childNodes);
+  // #collectionOfModals
+  //<img data-toggle="modal" data-target="#{{x.id}}" />
+  /*
+  <div class="modal fade" id={{x.id}} >
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer">
+              </div>
+          </div>
+      </div>
+  </div>
+  */
 
 }); // End of Controller
