@@ -14,6 +14,29 @@ angular.module('app').controller('ApplicationCtrl', function ($scope,UserSvc,$lo
               $scope.currentUser = response
           });
         }
+
+
+        // Stop carousel
+        $('.carousel').carousel({
+          interval: false
+        });
+
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 });
