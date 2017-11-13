@@ -180,3 +180,8 @@
 #draggable2 { cursor: e-resize; }
 #containment-wrapper { width: 95%; height:350px; border:2px solid aqua; padding: 10px;}
 #containment-wrapper2 { width: 95%; height:350px; border:2px solid crimson; padding: 10px;}
+
+#barter_button_submit_offer {
+    margin-top: 10px;
+    margin-bottom: 10px
+}

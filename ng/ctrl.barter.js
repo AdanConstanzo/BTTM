@@ -50,7 +50,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
             var $list = $("ul", $trash).length ?
               $("ul", $trash) :
               $("<ul class='"+GalleryName+" ui-helper-reset'/>").appendTo($trash);
-
+            $list.attr("id",GalleryName+"_ul_item");
             $item.find("a.ui-icon-transferthick-e-w").remove();
             $item.append(recycle_icon).appendTo($list).fadeIn(function () {
               $item
@@ -221,4 +221,31 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
     socket.removeAllListeners();
   });
 
-});
+  function throwError() {
+      document.getElementById("barter_h4_error").style.display = "block";
+  }
+
+  $scope.SubmitOffer = function() {
+      document.getElementById("barter_h4_error").style.display = "none";
+
+      var galler1,gallery2;
+
+      if (document.getElementById("gallery_ul_item")) {
+          galler1 = document.getElementById("gallery_ul_item");
+      } else {
+          throwError();
+          return;
+      }
+
+      if (document.getElementById("gallery2_ul_item")) {
+          galler2 = document.getElementById("gallery2_ul_item");
+      } else {
+          throwError();
+          return;
+      }
+
+      
+
+  }
+
+}); // End of Controller
