@@ -1,10 +1,14 @@
-angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, ChatSvc, UserSvc, TradingItemSvc) {
+angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, ChatSvc, UserSvc, TradingItemSvc, OfferSvc) {
 
   var barterController = {};
   barterController.otherUser = $routeParams.otheruser;
   barterController.user = "";
   $scope.otherUser = barterController.otherUser;
   $scope.CurrentUserItems = null;
+  barterController.UserItems = [];
+  barterController.OtherUserItems = [];
+  barterController.Items_User = {};
+  barterController.Items_Other_User = {};
   // IOVANNI's CODE
   var EnableDrag = function(GalleryName,TrashName,ContainmentName) {
         // There's the gallery and the trash
@@ -46,37 +50,49 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
         // Image deletion function
         var recycle_icon = "<a title='Remove this image' class='ui-icon ui-icon-refresh'>Remove Item</a>";
         function deleteImage($item) {
-          $item.fadeOut(function () {
-            var $list = $("ul", $trash).length ?
-              $("ul", $trash) :
-              $("<ul class='"+GalleryName+" ui-helper-reset'/>").appendTo($trash);
-            $list.attr("id",GalleryName+"_ul_item");
-            $item.find("a.ui-icon-transferthick-e-w").remove();
-            $item.append(recycle_icon).appendTo($list).fadeIn(function () {
-              $item
-                .animate({ width: "48px" })
-                .find("img")
-                .animate({ height: "36px" });
+            if (GalleryName === "gallery") {
+                barterController.UserItems.push($item.attr("data"));
+            } else if (GalleryName === "gallery2") {
+                barterController.OtherUserItems.push($item.attr("data"));
+            }
+
+            $item.fadeOut(function () {
+                var $list = $("ul", $trash).length ?
+                $("ul", $trash) :
+                $("<ul class='"+GalleryName+" ui-helper-reset'/>").appendTo($trash);
+                $list.attr("id",GalleryName+"_ul_item");
+                $item.find("a.ui-icon-transferthick-e-w").remove();
+                $item.append(recycle_icon).appendTo($list).fadeIn(function () {
+                    $item
+                        .animate({ width: "48px" })
+                        .find("img")
+                        .animate({ height: "36px" });
+                });
             });
-          });
         }
 
         // Image recycle function
         var trash_icon = "<a title='Remove this image' class='ui-icon ui-icon-transferthick-e-w'>Delete image</a>";
         function recycleImage($item) {
-          $item.fadeOut(function () {
-            $item
-              .find("a.ui-icon-refresh")
-              .remove()
-              .end()
-              .css("width", "96px")
-              .append(trash_icon)
-              .find("img")
-              .css("height", "72px")
-              .end()
-              .appendTo($gallery)
-              .fadeIn();
-          });
+            if (GalleryName === "gallery") {
+                barterController.UserItems = removeElementByValue(barterController.UserItems,$item.attr("data"));
+            } else if (GalleryName === "gallery2") {
+                barterController.OtherUserItems = removeElementByValue(barterController.OtherUserItems,$item.attr("data"));
+            }
+
+            $item.fadeOut(function () {
+                $item
+                    .find("a.ui-icon-refresh")
+                    .remove()
+                    .end()
+                    .css("width", "96px")
+                    .append(trash_icon)
+                    .find("img")
+                    .css("height", "72px")
+                    .end()
+                    .appendTo($gallery)
+                    .fadeIn();
+            });
         }
 
         // Image preview function, demonstrating the ui.dialog used as a modal window
@@ -121,9 +137,10 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
 
   TradingItemSvc.getAllUserTradingItems($routeParams.otheruser)
     .then(function (OtherUserItems) {
-        $scope.otherImage = OtherUserItems;
+
         var gallery2 = document.getElementById("gallery2");
         for (x in OtherUserItems) {
+            barterController.Items_Other_User[OtherUserItems[x]._id] = OtherUserItems[x];
             gallery2.appendChild(createLiItemHtml(OtherUserItems[x]));
         }
         EnableDrag("gallery2","trash2","containment-wrapper2");
@@ -146,8 +163,17 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
       li.appendChild(h5);
       li.appendChild(img);
       li.appendChild(a_bart);
-      li.setAttribute("data",item);
+      li.setAttribute("data",item._id);
       return li;
+  }
+
+  function removeElementByValue(arr,value) {
+      for(x in arr) {
+          if(value === arr[x]){
+              arr.splice(x,1);
+              return arr;
+          }
+      }
   }
 
 
@@ -156,9 +182,9 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
     barterController.user = userName;
     TradingItemSvc.getAllUserTradingItems(userName)
         .then(function (CurrentUserItems) {
-            $scope.userImage = CurrentUserItems;
             var gallery = document.getElementById("gallery");
             for( x in CurrentUserItems) {
+                barterController.Items_User[CurrentUserItems[x]._id] = CurrentUserItems[x];
                 gallery.appendChild(createLiItemHtml(CurrentUserItems[x]));
             }
             EnableDrag("gallery","trash","containment-wrapper");
@@ -191,7 +217,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
 
   // Listen for events
   socket.on('chat', function (data) {
-    createBubble(data);
+      createBubble(data);
   });
 
   // creates bubble based on User and Body
@@ -213,12 +239,19 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
     span_message.className = classes[1];
     div_message.appendChild(span_message);
     div_message_list.appendChild(div_message);
+
+    if(MessageContent.offerId) {
+        div_message.id = MessageContent.offerId;
+        span_message.id = MessageContent.offerId;
+    }
+
     if (document.getElementById("barter_message_content"))
       document.getElementById("barter_message_content").appendChild(div_message_list);
 
     var d = document.getElementById("barter_message_content");
     d.scrollTop = d.scrollHeight;
   }
+
 
   $scope.$on('$destroy', function () {
     socket.removeAllListeners();
@@ -232,30 +265,50 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
   $scope.SubmitOffer = function() {
       document.getElementById("barter_h4_error").style.display = "none";
 
-      var galler1,gallery2;
-
-      if (document.getElementById("gallery_ul_item")) {
-          galler1 = document.getElementById("gallery_ul_item");
-      } else {
+      if (barterController.UserItems.length == 0 || barterController.OtherUserItems.length == 0) {
           throwError();
           return;
       }
-
-      if (document.getElementById("gallery2_ul_item")) {
-          galler2 = document.getElementById("gallery2_ul_item");
-      } else {
-          throwError();
-          return;
+      var modalCreation = createModal(barterController.UserItems,barterController.OtherUserItems,true);
+      var offer = {
+          User_offer_username: barterController.user,
+          User_other_username: $routeParams.otheruser,
+          User_offer_items: barterController.UserItems,
+          User_other_items: barterController.OtherUserItems
       }
-
-      var modalCreation = createModal(galler1,galler2);
-
-      document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
-      document.getElementById("try").setAttribute("data-target","#"+modalCreation[1]);
-      console.log("complet");
+      OfferSvc.makeOffer(offer)
+        .then(function (doc) {
+            doc.shift();
+            var docId = doc[0]._id;
+            var message = "See "+barterController.user+"'s offer to "+ $routeParams.otheruser +" -: " + docId.substr(docId.length - 5)
+            modalCreation.id = "modal_"+docId;
+            document.getElementById("collectionOfModals").appendChild(modalCreation);
+            //document.getElementById("try").setAttribute("data-target","#"+doc._id);
+            socket.emit('chat', {
+              body: message,
+              user: barterController.user,
+              offerId: docId
+            });
+            ChatSvc.sendMessageWithOfferID(barterController.otherUser, message,docId);
+            removeItems();
+        });
   }
 
-  function createModal (UsersItems,OtherUserItems) {
+
+  function removeItems() {
+      var gallery_ul_item = document.getElementById("gallery_ul_item"),
+      gallery2_ul_item = document.getElementById("gallery2_ul_item");
+      // this is hard coded. If any issues. Come here!
+      for (var i = 0; i < gallery_ul_item.children.length; i++) {
+          gallery_ul_item.children[i].children[2].click();
+      }
+      // this is hard coded. If any issues. Come here!
+      for (var i = 0; i < gallery2_ul_item.children.length; i++) {
+           gallery2_ul_item.children[i].children[2].click();
+      }
+  }
+
+  function createModal (UserArray,OtherArray,OrderCase) {
 
       var user = barterController.user,
       otherUser = $routeParams.otheruser;
@@ -266,15 +319,17 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
       modalHeader = document.createElement("div"),
       modalBody = document.createElement("div"),
       modalFooter = document.createElement("div");
-      var hash = makeHash(user+"-"+otherUser+new Date().getTime());
       modalDiv.className = "modal fade";
-      modalDiv.id = hash;
       modalDialog.className = "modal-dialog";
       modalContent.className = "modal-content";
       modalHeader.className = "modal-header";
       modalBody.className = "modal-body";
       modalFooter.className = "modal-footer";
       var headerString = user + "'s Tradding Offer To " + otherUser;
+      if(!OrderCase){
+          headerString = otherUser + "'s Tradding Offer To " + user;
+      }
+
       var h2_title = document.createElement("h2");
       h2_title.innerHTML = headerString;
       modalHeader.appendChild(h2_title);
@@ -295,8 +350,8 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
       img.style.width = "50px";
       img.style.height = "50px";
 
-      createImageItem(UsersItems,divBody1);
-      createImageItem(OtherUserItems,divBody3);
+      createImageItem(UserArray,barterController.Items_User,divBody1);
+      createImageItem(OtherArray,barterController.Items_Other_User,divBody3);
       divBody2.appendChild(img);
       divRow.appendChild(divBody1);
       divRow.appendChild(divBody2);
@@ -310,50 +365,64 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
       modalDialog.appendChild(modalContent);
       modalDiv.appendChild(modalDialog);
 
-      return [modalDiv,hash];
+      return modalDiv;
   }
 
-  function createImageItem (items,div) {
-      for (var i = 0; i < items.children.length; i++) {
-          var h5 = items.children[i].children[0];
-          var img = items.children[i].children[1];
+  function createImageItem (items,itemMap,div) {
+      for (x in items) {
           var newImg = document.createElement("img");
-          newImg.src = img.src;
+          newImg.src = itemMap[items[x]].image.path200;
           newImg.style.width = "100px";
           newImg.style.height = "120px";
-          newImg.title = h5.innerHTML;
+          newImg.title = itemMap[items[x]].name;
           div.appendChild(newImg);
       }
   }
 
-  function makeHash(s) {
-    var hash = 0,
-      i, char;
-    if (s.length == 0) return hash;
-    for (i = 0, l = s.length; i < l; i++) {
-      char = s.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-  };
+  $scope.FireModal = function(event){
+      if(document.getElementById("modal_"+event.target.id)) {
+          $("#modal_"+event.target.id).modal();
+          return;
+      }
+      var done = true;
+      OfferSvc.GetOneOfferById(event.target.id)
+        .then(function (Offer) {
+            if(Offer.User_offer_username === barterController.user) {
+                done = hasItems(Offer.User_offer_items,barterController.Items_User);
+                done = hasItems(Offer.User_other_items,barterController.Items_Other_User);
+                if(done){
+                    var modalCreation = createModal(Offer.User_offer_items,Offer.User_other_items,true);
+                    modalCreation.id = "modal_"+event.target.id;
+                    document.getElementById("collectionOfModals").appendChild(modalCreation);
+                    $("#modal_"+event.target.id).modal();
+                }
+            } else {
+                done = hasItems(Offer.User_offer_items,barterController.Items_Other_User);
+                done = hasItems(Offer.User_other_items,barterController.Items_User);
+                if(done){
+                    var modalCreation = createModal(Offer.User_other_items,Offer.User_offer_items,false);
+                    modalCreation.id = "modal_"+event.target.id;
+                    document.getElementById("collectionOfModals").appendChild(modalCreation);
+                    $("#modal_"+event.target.id).modal();
+                }
+            }
+            // if(done){
 
-  //console.log(galler1.childNodes);
-  // #collectionOfModals
-  //<img data-toggle="modal" data-target="#{{x.id}}" />
-  /*
-  <div class="modal fade" id={{x.id}} >
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-              </div>
-              <div class="modal-body">
-              </div>
-              <div class="modal-footer">
-              </div>
-          </div>
-      </div>
-  </div>
-  */
+
+
+            // } else {
+            //     //do more stuff her sucker.
+            // }
+        })
+  }
+
+    function hasItems(arr, map) {
+        for(var i = 0; i < arr.length; i++){
+            if(!map[arr[i]]){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }); // End of Controller

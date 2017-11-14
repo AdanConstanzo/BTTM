@@ -80,4 +80,21 @@ router.post('/chat',authenticate,function(req,res,next){
 
 });
 
+router.post("/chat/special/", authenticate, function (req, res, next) {
+    var currentUser = req.session.user.username;
+    console.log(req.body);
+    var stringParams = greaterString(currentUser,req.body.otherUser);
+    const message = new Message({
+      conversationId: stringParams[0]+"-"+stringParams[1],
+      body: req.body.body,
+      author:currentUser,
+      offerId: req.body.offerId
+    });
+
+    message.save(function(err){
+      if(err){res.send({Error:err});return next(err);}
+      res.sendStatus(200);
+    });
+})
+
 module.exports = router;

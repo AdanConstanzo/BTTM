@@ -12,4 +12,8 @@ angular.module("app").service("ChatSvc", function ($http) {
     return $http.post("api/chat/",{otherUser:otherUser,body:messageBody});
   }
 
+  svc.sendMessageWithOfferID = function (otherUser,messageBody,_id) {
+      return $http.post("api/chat/special/",{otherUser:otherUser,body:messageBody,offerId:_id});
+  }
+
 }) /* End of ChatSvc*/
