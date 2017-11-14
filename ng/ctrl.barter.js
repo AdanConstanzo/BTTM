@@ -5,7 +5,34 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
   barterController.user = "";
   $scope.otherUser = barterController.otherUser;
 
-  
+  //Datepicker
+  $( function() {
+    $( "#datepicker" ).datepicker({
+      showOn: "button",
+      buttonImage: "https://i.imgur.com/xyqM5eV.png?2",
+      buttonImageOnly: true,
+      buttonText: "Pick a date"
+    });
+  } );
+
+
+  //Areapicker
+  $('#areapicker').locationpicker({
+    location: {
+        latitude: null,
+        longitude: null
+    },
+    radius: 300,
+    inputBinding: {
+        latitudeInput: $('#lat'),
+        longitudeInput: $('#lon'),
+        radiusInput: $('#radius'),
+        locationNameInput: $('#address')
+    },
+    enableAutocomplete: true,
+});
+
+  //Drag and Drop
   $(function () {
 
     // There's the gallery and the trash

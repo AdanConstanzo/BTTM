@@ -57,32 +57,68 @@
     <!-- ol(> trading screen -->
     <div class="col-md-6 ui-widget ui-helper-clearfix">
       <div id="containment-wrapper2">
-          <p>{{otherUser}}'s Items</p>
-          <ul id="gallery2" class="gallery2 ui-helper-reset ui-helper-clearfix">
-            <li id="draggable3" class="draggable ui-widget-content ui-corner-tr">
-              <h5 class="ui-widget-header">Suga</h5>
-              <img src="https://i.imgur.com/DVBEUKt.jpg" alt="Suga 4rm BTS" width="96" height="72">
-              <a href="https://i.imgur.com/DVBEUKt.jpg" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
-              <!-- <a href="link/to/trash2/script/when/we/have/js/off" title="Barter this image" class="ui-icon ui-icon-trash">Barter Item</a> -->
-            </li>
-            <li class="ui-widget-content ui-corner-tr">
-              <h5 class="ui-widget-header">Adan</h5>
-              <img src="https://i.imgur.com/wmpnsRz.png" alt="Adan" width="96" height="72">
-              <a href="https://i.imgur.com/wmpnsRz.png" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
-              <!-- <a href="link/to/trash2/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter Item</a> -->
-            </li>
-            <li class="ui-widget-content ui-corner-tr">
-              <h5 class="ui-widget-header">Adan</h5>
-              <img src="https://i.imgur.com/wmpnsRz.png" alt="Adan" width="96" height="72">
-              <a href="https://i.imgur.com/wmpnsRz.png" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
-              <!-- <a href="link/to/trash2/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter Item</a> -->
-            </li>
-          </ul>
-  
-          <div id="trash2" class="col-md-3 ui-widget-content ui-state-default">
-            <h4 class="ui-widget-header">
-              <span class="ui-icon ui-icon-trash">Trash</span> {{otherUser}}'s offer</h4>
-          </div>
+        <p>{{otherUser}}'s Items</p>
+        <ul id="gallery2" class="gallery2 ui-helper-reset ui-helper-clearfix">
+          <li id="draggable3" class="draggable ui-widget-content ui-corner-tr">
+            <h5 class="ui-widget-header">Suga</h5>
+            <img src="https://i.imgur.com/DVBEUKt.jpg" alt="Suga 4rm BTS" width="96" height="72">
+            <a href="https://i.imgur.com/DVBEUKt.jpg" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+            <!-- <a href="link/to/trash2/script/when/we/have/js/off" title="Barter this image" class="ui-icon ui-icon-trash">Barter Item</a> -->
+          </li>
+          <li class="ui-widget-content ui-corner-tr">
+            <h5 class="ui-widget-header">Adan</h5>
+            <img src="https://i.imgur.com/wmpnsRz.png" alt="Adan" width="96" height="72">
+            <a href="https://i.imgur.com/wmpnsRz.png" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+            <!-- <a href="link/to/trash2/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter Item</a> -->
+          </li>
+          <li class="ui-widget-content ui-corner-tr">
+            <h5 class="ui-widget-header">Adan</h5>
+            <img src="https://i.imgur.com/wmpnsRz.png" alt="Adan" width="96" height="72">
+            <a href="https://i.imgur.com/wmpnsRz.png" title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+            <!-- <a href="link/to/trash2/script/when/we/have/js/off" title="Delete this image" class="ui-icon ui-icon-trash">Barter Item</a> -->
+          </li>
+        </ul>
+
+        <div id="trash2" class="col-md-3 ui-widget-content ui-state-default">
+          <h4 class="ui-widget-header">
+            <span class="ui-icon ui-icon-trash">Trash</span> {{otherUser}}'s offer</h4>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p>Pick a date to meet:
+    <input type="text" id="datepicker">
+  </p>
+
+
+  <div class="form-horizontal" style="width: 550px">
+    <div class="form-group">
+      <p>Pick a place to meet: </p>
+
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="address" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Radius:</label>
+
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="radius" />
+      </div>
+    </div>
+    <div id="areapicker" style="width: 550px; height: 400px;"></div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="m-t-small">
+      <label class="p-r-small col-sm-1 control-label">Lat.:</label>
+
+      <div class="col-sm-3">
+        <input type="text" class="form-control" style="width: 110px" id="lat" />
+      </div>
+      <label class="p-r-small col-sm-2 control-label">Long.:</label>
+
+      <div class="col-sm-3">
+        <input type="text" class="form-control" style="width: 110px" id="lon" />
       </div>
     </div>
 
