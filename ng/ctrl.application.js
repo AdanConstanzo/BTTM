@@ -9,9 +9,11 @@ angular.module('app').controller('ApplicationCtrl', function ($scope,UserSvc,$lo
     };
 
     UserSvc.hasSession().then(function(response){
+        console.log(response);
         if(response){
           UserSvc.getUserAccountInfo().then(function(response){
               $scope.currentUser = response
+              console.log($scope.currentUser);
           });
         }
     });

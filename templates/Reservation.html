@@ -1,1 +1,32 @@
-<h1>Reserve a day for your trade meet up!</h1>
+<center><h1>Reserve a day for your trade meet up!</h1></center>
+<br>
+<br>
+<div class="row">
+    <div class="col-md-4">
+        <h3>Pick a date to meet:
+            <input type="text" id="datepicker">
+        </h3>
+        <br>
+        <br>
+        <br>
+        <h3> Pick a time to meet:
+            <input id="basicExample" type="text" class="time ui-timepicker-input" autocomplete="off">
+        </h3>
+        <h4 id="reservation_h4_warrning" style="color: red; display:none;">Please Eneter Valid Date or Time.</h4>
+    </div>
+
+    <div class="col-md-7 col-md-offset-1">
+        <div class="form-horizontal" style="width: 550px">
+            <div class="form-group">
+                <p>Pick a place to meet: </p>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="address" />
+                </div>
+            </div>
+            <div id="areapicker" style="width: auto; height: 350px;"></div>
+            <div class="clearfix">&nbsp;</div>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-default" ng-click="submitReservation()" type="submit">Button</button>

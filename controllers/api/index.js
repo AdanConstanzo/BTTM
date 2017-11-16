@@ -11,5 +11,6 @@ router.use(require("./transactionsCompleted"));
 router.use(require("./transactionsPending"));
 router.use(require("./geo"));
 router.use(require("./offer"));
+router.use(require("./reservation"));
 
 module.exports = router;

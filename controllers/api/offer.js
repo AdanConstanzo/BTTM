@@ -30,7 +30,9 @@ router.post("/offers/make/", function (req, res, next) {
         User_offer_username: req.body.User_offer_username,
         User_other_username: req.body.User_other_username,
         User_offer_items: req.body.User_offer_items,
-        User_other_items: req.body.User_other_items
+        User_other_items: req.body.User_other_items,
+        TransactionPending: {},
+        TransactionCompleted: {}
     });
     offer.save(function (err, doc) {
         if (err) {
@@ -40,5 +42,22 @@ router.post("/offers/make/", function (req, res, next) {
         }
     })
 });
+
+
+router.put("/offers/addTransactionPending/", function(req, res, next) {
+    //User.findByIdAndUpdate({_id:req.params.id},{user_image:usersImages},function(err,docs){
+    var offerPendingObject = {};
+    if(req.body.offerStatus === "accepted") {
+        offerPendingObject.accepted = true;
+        offerPendingObject._id = req.body.TransactionPendingId;
+        Offer.findByIdAndUpdate({_id:req.body.offerId},{TransactionPending:offerPendingObject},function(err,docs){
+            res.send(docs);
+            return;
+        });
+    } else {
+        res.send("Do editing here for rejected");
+        return;
+    }
+})
 
 module.exports = router;
