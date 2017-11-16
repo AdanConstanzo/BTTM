@@ -1,4 +1,4 @@
-angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, ChatSvc, UserSvc, TradingItemSvc, OfferSvc) {
+angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $location, ChatSvc, UserSvc, TradingItemSvc, OfferSvc) {
 
   var barterController = {};
   barterController.otherUser = $routeParams.otheruser;
@@ -281,8 +281,9 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
             doc.shift();
             var docId = doc[0]._id;
             var message = "See "+barterController.user+"'s offer to "+ $routeParams.otheruser +" -: " + docId.substr(docId.length - 5)
-            modalCreation.id = "modal_"+docId;
-            document.getElementById("collectionOfModals").appendChild(modalCreation);
+            modalCreation[0].id = "modal_"+docId;
+            modalCreation[1].
+            document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
             //document.getElementById("try").setAttribute("data-target","#"+doc._id);
             socket.emit('chat', {
               body: message,
@@ -357,15 +358,30 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
       divRow.appendChild(divBody2);
       divRow.appendChild(divBody3);
 
-      modalFooter.innerHTML = "<h2> Yes or No </h2>";
+      var modalDivFoot = document.createElement("div");
+      var h3 = document.createElement("h3");
+      h3.innerHTML = "Do you want to accept the offer?";
+      var a_yes = document.createElement("a");
+      var a_no = document.createElement("a");
+      a_yes.className = "btn btn-default";
+      a_yes.setAttribute("role","button");
+      a_yes.innerHTML = "Yes";
+      a_yes.setAttribute("data-dismiss","modal");
+      a_no.className = "btn btn-default";
+      a_no.setAttribute("role","button");
+      a_no.setAttribute("data-dismiss","modal");
+      a_no.innerHTML = "No";
+      modalDivFoot.appendChild(h3);
+      modalDivFoot.appendChild(a_yes);
+      modalDivFoot.appendChild(a_no);
+      modalFooter.appendChild(modalDivFoot);
 
       modalContent.appendChild(modalHeader);
       modalContent.appendChild(modalBody);
       modalContent.appendChild(modalFooter);
       modalDialog.appendChild(modalContent);
       modalDiv.appendChild(modalDialog);
-
-      return modalDiv;
+      return [modalDiv,a_yes];
   }
 
   function createImageItem (items,itemMap,div) {
@@ -392,17 +408,28 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
                 done = hasItems(Offer.User_other_items,barterController.Items_Other_User);
                 if(done){
                     var modalCreation = createModal(Offer.User_offer_items,Offer.User_other_items,true);
-                    modalCreation.id = "modal_"+event.target.id;
-                    document.getElementById("collectionOfModals").appendChild(modalCreation);
+                    modalCreation[0].id = "modal_"+event.target.id;
+                    modalCreation[1].onclick = function(){
+                        $scope.redirect = true;
+                    }
+                    document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
                     $("#modal_"+event.target.id).modal();
+                    $("#modal_" + event.target.id).on("hidden.bs.modal", function(e) {
+                        if($scope.redirect) {
+                            $scope.redirect = false;
+                            var id = e.currentTarget.id.replace("modal_","")
+                            window.location = "/#/createReservation-"+id;
+                        }
+                    })
                 }
             } else {
                 done = hasItems(Offer.User_offer_items,barterController.Items_Other_User);
                 done = hasItems(Offer.User_other_items,barterController.Items_User);
                 if(done){
                     var modalCreation = createModal(Offer.User_other_items,Offer.User_offer_items,false);
-                    modalCreation.id = "modal_"+event.target.id;
-                    document.getElementById("collectionOfModals").appendChild(modalCreation);
+                    modalCreation[0].id = "modal_"+event.target.id;
+                    modalCreation[1].href ="/#/adan"
+                    document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
                     $("#modal_"+event.target.id).modal();
                 }
             }
@@ -415,7 +442,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, C
             // }
         })
   }
-
+    $scope.redirect = false;
     function hasItems(arr, map) {
         for(var i = 0; i < arr.length; i++){
             if(!map[arr[i]]){
