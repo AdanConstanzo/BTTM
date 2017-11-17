@@ -9,7 +9,7 @@ angular.module("app")
           .when('/register-setup',{controller:'RegisterSetupCtrl',templateUrl:'/templates/RegisterSetUp.html'})
           .when('/user',{controller:'UserCtrl',templateUrl:'/templates/User.html'})
 
-          .when('/About',{templateUrl:'/templates/About.html'})
+
           .when('/Contact',{templateUrl:'/templates/Contact.html'})
 
 
