@@ -15,11 +15,17 @@ angular.module('app').controller('ApplicationCtrl', function ($scope,UserSvc,$lo
           });
         }
 
-
-        // Stop carousel
-        $('.carousel').carousel({
-          interval: false
+        $(document).ready(function() {
+            $('#Carousel').carousel({
+                interval: 5000
+            })
         });
+
+
+
+
+
+
 
     });
 
