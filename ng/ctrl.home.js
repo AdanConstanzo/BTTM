@@ -37,10 +37,33 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,GeoSvc,T
         $scope.UserGeo = usr_loc_obj;
         TradingItemSvc.getItemFromCityState(usr_loc_obj)
             .then(function (response) {
+                makeSliderHtml(response[0],"Glendora");
                 // handle the data here.
             })
     }
 
-    
+    function makeSliderHtml(array,setCode){
+  		var section = document.createElement("section")
+		section.id = "itemView-"+setCode;
+  		section.class = "regular slider";
+		// loops through cards and create div and images
+  		for(x in array){
+  			var divTemp = document.createElement("div"),
+  			imgTemp = document.createElement("img");
+  			imgTemp.src = array[x].image.path200;
+  			imgTemp.id = "item-"+array[x]._id;
+  			imgTemp.setAttribute("data",array[x]._id);
+  			imgTemp.setAttribute("itemName",array[x].name);
+  			divTemp.appendChild(imgTemp);
+  			section.appendChild(divTemp);
+  		}
+  		// adds to collection of slider div
+  		var sliderCollection = document.getElementById("home_near_by");
+  		sliderCollection.appendChild(section);
+		// initialize the slider
+  		$("#itemView-"+setCode).slick({ arrows:false, dots: true, infinite: true, slidesToShow: 2, slidesToScroll: 2 });
+	}
+
+    //$("#cardViewSlider-"+setCode).slick({ arrows:false, dots: true, infinite: true, slidesToShow: 6, slidesToScroll: 6 });
 
 });
