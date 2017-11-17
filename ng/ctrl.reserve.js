@@ -1,4 +1,4 @@
-angular.module('app').controller('ReservationCtrl',function($scope,$routeParams,UserSvc,OfferSvc){
+angular.module('app').controller('ReservationCtrl',function($scope,$routeParams,UserSvc,OfferSvc,ReservationSvc){
     //$routeParams.id
     $(function () {
         $("#datepicker").datepicker({
@@ -24,7 +24,10 @@ angular.module('app').controller('ReservationCtrl',function($scope,$routeParams,
             document.getElementById("reservation_h4_warrning").style.display = "block";
             return;
         }
-        return OfferSvc.setReservation($scope.reservation);
+        ReservationSvc.makeReservation($scope.reservation)
+            .then(function (response) {
+                alert("Completed. Now reference to place");
+            })
     }
 
     UserSvc.getUserAccountInfo()

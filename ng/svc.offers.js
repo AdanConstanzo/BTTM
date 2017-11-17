@@ -23,6 +23,9 @@ angular.module("app").service("OfferSvc", function ($http) {
     }
 
     svc.setReservation = function(ReservationObject) {
-        return $http.put("/api/offers/addTransactionPending/", ReservationObject);
+        return $http.put("/api/offers/addTransactionPending/", ReservationObject)
+            .then(function (response){
+                return response;
+            })
     }
 });

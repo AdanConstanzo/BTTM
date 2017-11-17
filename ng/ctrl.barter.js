@@ -245,6 +245,10 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
         span_message.id = MessageContent.offerId;
     }
 
+    if (MessageContent.special === "OD") {
+        span_message.style.color = "purple";
+    }
+
     if (document.getElementById("barter_message_content"))
       document.getElementById("barter_message_content").appendChild(div_message_list);
 
@@ -282,8 +286,14 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
             var docId = doc[0]._id;
             var message = "See "+barterController.user+"'s offer to "+ $routeParams.otheruser +" -: " + docId.substr(docId.length - 5)
             modalCreation[0].id = "modal_"+docId;
+            modalCreation[1].onclick = function(){
+                $scope.redirect = true;
+            }
+            modalCreation[2].onclick = function () {
+                $scope.redirect = false;
+            }
+            modalCreation[3].id = "modal_footer_" + docId;
             document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
-            //document.getElementById("try").setAttribute("data-target","#"+doc._id);
             socket.emit('chat', {
               body: message,
               user: barterController.user,
@@ -308,6 +318,10 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
       }
   }
 
+  // Function that creates a modal.
+  // UserArray is the current user's array of items.
+  // OtherArray is the other user's array of items.
+  // OrderCase determines wheter if it's the User's offer or other user offer.
   function createModal (UserArray,OtherArray,OrderCase) {
 
       var user = barterController.user,
@@ -377,10 +391,12 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
 
       modalContent.appendChild(modalHeader);
       modalContent.appendChild(modalBody);
-      modalContent.appendChild(modalFooter);
+      if(!OrderCase) {
+          modalContent.appendChild(modalFooter);
+      }
       modalDialog.appendChild(modalContent);
       modalDiv.appendChild(modalDialog);
-      return [modalDiv,a_yes];
+      return [modalDiv,a_yes,a_no,modalDivFoot];
   }
 
   function createImageItem (items,itemMap,div) {
@@ -404,38 +420,69 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
               var done = true;
               OfferSvc.GetOneOfferById(event.target.id)
                 .then(function (Offer) {
+                    // if the offerer was created by current user.
                     if(Offer.User_offer_username === barterController.user) {
                         done = hasItems(Offer.User_offer_items,barterController.Items_User);
                         done = hasItems(Offer.User_other_items,barterController.Items_Other_User);
                         if(done){
                             var modalCreation = createModal(Offer.User_offer_items,Offer.User_other_items,true);
                             modalCreation[0].id = "modal_"+event.target.id;
-                            modalCreation[1].onclick = function(){
-                            $scope.redirect = true;
-                        }
                             document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
                             $("#modal_"+event.target.id).modal();
-                            $("#modal_" + event.target.id).on("hidden.bs.modal", function(e) {
-                                if($scope.redirect) {
-                                    $scope.redirect = false;
-                                    var id = e.currentTarget.id.replace("modal_","")
-                                    window.location = "/#/createReservation-"+id;
-                                }
-                            })
+                        } else {
+                            // doing stuff here.
+                            alert("Sorry items missing")
                         }
                     } else {
                         done = hasItems(Offer.User_offer_items,barterController.Items_Other_User);
                         done = hasItems(Offer.User_other_items,barterController.Items_User);
+                        var checkClick = null;
                         if(done){
-                            var modalCreation = createModal(Offer.User_other_items,Offer.User_offer_items,false);
-                            modalCreation[0].id = "modal_"+event.target.id;
-                            modalCreation[1].href ="/#/adan"
-                            document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
-                            $("#modal_"+event.target.id).modal();
-                        }
-                    }
-                })
-          }
+                            var modalCreation = null;
+                            if (Offer.TransactionPending.accepted === false) {
+                                modalCreation = createModal(Offer.User_other_items,Offer.User_offer_items,true);
+                                modalCreation[0].id = "modal_"+event.target.id;
+                                document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
+                                $("#modal_"+event.target.id).modal();
+                            } else {
+                                modalCreation = createModal(Offer.User_other_items,Offer.User_offer_items,false);
+                                modalCreation[1].onclick = function(){
+                                    checkClick = true;
+                                }
+                                modalCreation[2].onclick = function () {
+                                    checkClick = false;
+                                }
+                                modalCreation[3].id = "modal_footer_"+event.target.id;
+                                modalCreation[0].id = "modal_"+event.target.id;
+                                document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
+                                $("#modal_"+event.target.id).modal();
+                                $("#modal_" + event.target.id).on("hidden.bs.modal", function(e) {
+                                    console.log("hi bob");
+                                    var id = e.currentTarget.id.replace("modal_","")
+                                    if(checkClick) {
+                                        window.location = "/#/createReservation-"+id;
+                                    } else if (checkClick === false) {
+                                        checkClick = null;
+                                        var obj = {};
+                                        obj.offerStatus = "DECLINED"
+                                        obj.offerId = id
+                                        OfferSvc.setReservation(obj)
+                                            .then(function (stuff){
+                                                document.getElementById("modal_footer_" + id).remove();
+                                                socket.emit('chat', {
+                                                  body: "Offer declined.",
+                                                  user: barterController.user,
+                                                  special: "OD"
+                                                });
+                                                ChatSvc.sendMessage(barterController.otherUser, "Offer declined.");
+                                            });
+                                    }
+                                });
+                            } // end of else.
+                        } // end of if.
+                    } // end of else
+                }); // end of then.
+          }// end of else
       }
   }
 

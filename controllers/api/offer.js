@@ -31,7 +31,9 @@ router.post("/offers/make/", function (req, res, next) {
         User_other_username: req.body.User_other_username,
         User_offer_items: req.body.User_offer_items,
         User_other_items: req.body.User_other_items,
-        TransactionPending: {},
+        TransactionPending: {
+            accepted: null
+        },
         TransactionCompleted: {}
     });
     offer.save(function (err, doc) {
@@ -45,19 +47,19 @@ router.post("/offers/make/", function (req, res, next) {
 
 
 router.put("/offers/addTransactionPending/", function(req, res, next) {
-    //User.findByIdAndUpdate({_id:req.params.id},{user_image:usersImages},function(err,docs){
     var offerPendingObject = {};
+    console.log(req.body);
     if(req.body.offerStatus === "accepted") {
         offerPendingObject.accepted = true;
         offerPendingObject._id = req.body.TransactionPendingId;
-        Offer.findByIdAndUpdate({_id:req.body.offerId},{TransactionPending:offerPendingObject},function(err,docs){
-            res.send(docs);
-            return;
-        });
     } else {
-        res.send("Do editing here for rejected");
-        return;
+        console.log("hi");
+        offerPendingObject.accepted = false;
     }
+    Offer.findByIdAndUpdate({_id:req.body.offerId},{TransactionPending:offerPendingObject},function(err,docs){
+        console.log("HIT");
+        res.send(docs);
+    });
 })
 
 module.exports = router;

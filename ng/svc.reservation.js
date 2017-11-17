@@ -3,10 +3,11 @@ angular.module("app").service("ReservationSvc", function ($http,OfferSvc) {
     svc.makeReservation = function (OfferObject) {
         return $http.post("/api/reservation/make/", OfferObject)
             .then(function (OfferCreated) {
-                OfferCreated.shift();
+                var offerCreated = OfferCreated.data;
+                offerCreated.shift();
                 var reservationObject = {};
-                reservationObject.offerId = OfferCreated[0].offerId;
-                reservationObject.TransactionPendingId = OfferCreated[0]._id;
+                reservationObject.offerId = offerCreated[0].offerId;
+                reservationObject.TransactionPendingId = offerCreated[0]._id;
                 reservationObject.offerStatus = "accepted"
                 return OfferSvc.setReservation(reservationObject);
             });
