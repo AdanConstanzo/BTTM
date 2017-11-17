@@ -2,9 +2,14 @@ angular.module('app').controller('PendingTradesCtrl',function($scope,UserSvc,Off
     // controller for pending trades
     var pendingTrades = {}
     pendingTrades.ItemMap = {};
+    pendingTrades.user = "";
     pendingTrades.Offers = [];
+    pendingTrades.UserMap = {};
+    pendingTrades.userImg = "";
     UserSvc.getUserAccountInfo()
         .then(function (user){
+            pendingTrades.user = user;
+            pendingTrades.userImg = user.user_image.path200;
             // Getting all images into a map.
             OfferSvc.GetPendingOffers(user.username)
                 .then(function (Offers){
@@ -36,15 +41,53 @@ angular.module('app').controller('PendingTradesCtrl',function($scope,UserSvc,Off
                     imageCount++;
                     pendingTrades.ItemMap[response._id] = response;
                     if(imageCount === count){
-                        joinThem();
+                        getUserImage();
                     }
                 })
         }
     }
 
-    function joinThem(){
+    function getUserImage(){
+        var count = 1;
+        for (x in pendingTrades.Offers){
+            if(pendingTrades.Offers[x].User_offer_username === pendingTrades.user.username) {
+                UserSvc.getUserOpenInfo(pendingTrades.Offers[x].User_other_username)
+                    .then(function (user){
+                        count ++;
+                        pendingTrades.UserMap[user.username] = user.user_image.path200;
+                        if(pendingTrades.Offers.length === count){
+                            setUserImage();
+                        }
+                    });
+            } else {
+                UserSvc.getUserOpenInfo(pendingTrades.Offers[x].User_offer_username)
+                    .then(function (user){
+                        count ++;
+                        pendingTrades.UserMap[user.username] = user.user_image.path200;
+                        if(pendingTrades.Offers.length === count){
+                            setUserImage();
+                        }
+                    });
+            }
+        }
+    }
+
+    function setUserImage(){
+        for(x in pendingTrades.Offers){
+            if(pendingTrades.Offers[x].User_offer_username === pendingTrades.user.username) {
+                pendingTrades.Offers[x].otherPath = pendingTrades.UserMap[pendingTrades.Offers[x].User_other_username];
+                pendingTrades.Offers[x].otherUser = pendingTrades.Offers[x].User_other_username;
+            } else {
+                pendingTrades.Offers[x].otherPath = pendingTrades.UserMap[pendingTrades.Offers[x].User_offer_username];
+                pendingTrades.Offers[x].otherUser = pendingTrades.Offers[x].User_offer_username;
+            }
+        }
+        joinThem();
+        $scope.User = pendingTrades.user
         $scope.Offers = pendingTrades.Offers;
-        console.log(pendingTrades.Offers[0]);
+    }
+
+    function joinThem() {
         for(x in pendingTrades.Offers){
             var obj = pendingTrades.Offers[x];
             var idTemp = obj.TransactionPending._id;
@@ -63,10 +106,6 @@ angular.module('app').controller('PendingTradesCtrl',function($scope,UserSvc,Off
                 }
             });
         }
-        /*
-        pendingTrades.ItemMap = {};
-        pendingTrades.Offers = [];
-        */
     }
 
     function createModal (PendingTradeObj) {

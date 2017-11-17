@@ -444,7 +444,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
                         var checkClick = null;
                         if(done){
                             var modalCreation = null;
-                            if (Offer.TransactionPending.accepted === false) {
+                            if (Offer.TransactionPending.accepted === false || Offer.TransactionPending.accepted === true) {
                                 modalCreation = createModal(Offer.User_other_items,Offer.User_offer_items,true);
                                 modalCreation[0].id = "modal_"+event.target.id;
                                 document.getElementById("collectionOfModals").appendChild(modalCreation[0]);

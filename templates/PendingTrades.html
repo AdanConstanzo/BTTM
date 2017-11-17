@@ -3,9 +3,10 @@
 <div ng-repeat="x in Offers">
     <div class="col-md-3" data-toggle="modal" data-target="#modal_{{x.TransactionPending._id}}">
         <div class="thumbnail">
-            <img ng-src={{x.image.path200}} alt="{{x.name}}" style="height:150px; width:150px;">
+            <img ng-src={{x.otherPath}} alt="{{x.name}}" style="height:150px; width:150px;">
+            <img ng-src={{User.user_image.path200}} alt="{{x.name}}" style="height:150px; width:150px;">
             <div class="caption">
-              <p>{{x.User_offer_username}}'s offer to {{x.User_other_username}}</p>
+              <p>{{User.username}}'s offer to {{x.otherUser}}</p>
             </div>
         </div>
     </div>
