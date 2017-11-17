@@ -15,6 +15,8 @@ angular.module("app")
           .when("/createReservation-:id",{controller:"ReservationCtrl",templateUrl:"/templates/Reservation.html"})
           .when("/pendingTrades", {controller:"PendingTradesCtrl",templateUrl:"/templates/PendingTrades.html"})
           .when("/pendingTrades-details-:id", {controller:"PendingTradesDetailsCtrl", templateUrl:"/templates/PendingTradesDetail.html"})
+          .when('/About',{templateUrl:'/templates/About.html'})
+          .when('/Contact',{templateUrl:'/templates/Contact.html'})
           .otherwise({redirectTo: '/'});
   })
   .factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){

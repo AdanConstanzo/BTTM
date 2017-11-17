@@ -1,9 +1,77 @@
+
+
 <center>
   <h1>Welcome <strong>{{register_setup_username}}</strong> to Barter to the Max</h1>
   <h3> Here are some slides on how to use Barter to the Max </h3>
-  <div style="height: 300px; width:500px; background-color:black;">
-  </div>
-  <h3> You can also update your profile Image!</h3>
+
+
+<div class="container">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="https://i.imgur.com/LQSX4lP.png" style="width: 710.98px; height: 236.98px;">
+                <div class="carousel-caption">
+                    <h3>
+                        First step </h3>
+                    <p>
+                        Think of an item that you would be interested in trading for.</p>
+                </div>
+            </div>
+            <!-- End Item -->
+            <div class="item">
+                <img src="https://i.imgur.com/XeWWogQ.png" style="width: 710.98px; height: 236.98px;">
+                <div class="carousel-caption">
+                    <h3>
+                        broswe the website, then </h3>
+                    <p>
+                         go over the list and fine something you want to trade
+
+                        </p>
+                </div>
+            </div>
+            <!-- End Item -->
+            <div class="item">
+                <img src="https://i.imgur.com/hOFD1go.png"style="width: 710.98px; height: 236.98px;">
+                <div class="carousel-caption">
+                    <h3>
+                        It's time to contact the trader </h3>
+                    <p>
+                        contact the trader, go to our instant messenger page and drag and drop items you are willing to trade. Hopefully strike a nice bargain.</p>
+                </div>
+            </div>
+            <!-- End Item -->
+            <div class="item">
+                <img src="https://i.imgur.com/x3NnwcS.png"style="width: 710.98px; height: 236.98px;">
+                <div class="carousel-caption">
+                    <h3>
+                        Let's finish the trade now.</h3>
+                    <p>
+                        Lastly, agree on a place to meet and do the exchange(Remember to be as safe as possible and to let someone know of your location or bring a buddy). </p>
+                </div>
+            </div>
+            <!-- End Item -->
+        </div>
+        <!-- End Carousel Inner -->
+        <ul class="nav nav-pills nav-justified">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"><a href="">Step 1<small>Find things
+                </small></a></li>
+            <li data-target="#myCarousel" data-slide-to="1"><a href="">Step 2<small>pick something you want
+                </small></a></li>
+            <li data-target="#myCarousel" data-slide-to="2"><a href="">Step 3<small>contact the owner
+                </small></a></li>
+            <li data-target="#myCarousel" data-slide-to="3"><a href="">Step 4<small>Making the trade
+                 </small></a></li>
+        </ul>
+    </div>
+    <!-- End Carousel -->
+</div>
+
+
+
+
+
+    <h3> You can also update your profile Image!</h3>
 
   <img id="register_setup_image" style="height:150px; width:150px;" ng-src={{register_setup_userImage}} />
   <form id="register_user_images_div_folder" ng-submit="submit()">
