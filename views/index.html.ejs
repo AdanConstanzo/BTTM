@@ -17,7 +17,6 @@
     <script src="/js/libraries/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyB_L0FXzFh6bgR2pLoBLHZ-tt-bcf-KBzs&libraries=places'></script>
     <script src="/js/libraries/jquery.timepicker.min.js"></script>
     <script src="/js/libraries/locationpicker.jquery.min.js"></script>
@@ -38,15 +37,12 @@
         <nav id="home_nav_bar" class="navbar navbar-default col-md-8 col-md-offset-2">
             <div class="container-fluid">
                 <a id="home_logo" href="/#/" class="navbar-brand">BTTM</a>
-                <ul id="home_nav_ul" class="nav navbar-nav">
-                    <li ng-if="currentUser">
+                <ul ng-if="currentUser" id="home_nav_ul" class="nav navbar-nav">
+                    <li>
                         <a href="/#/postItem">Post Item</a>
                     </li>
                     <li>
-                        <a href="/#/barter-progress" >Pending Trades</a>
-                    </li>
-                    <li>
-                        <a href="/#/barter-user-:otheruser">Go Trade</a>
+                        <a href="/#/pendingTrades" >Pending Trades</a>
                     </li>
                 </ul>
                 <div class="collapse navbar-collapse">

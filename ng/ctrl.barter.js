@@ -141,7 +141,10 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
         var gallery2 = document.getElementById("gallery2");
         for (x in OtherUserItems) {
             barterController.Items_Other_User[OtherUserItems[x]._id] = OtherUserItems[x];
-            gallery2.appendChild(createLiItemHtml(OtherUserItems[x]));
+            if(!OtherUserItems[x].traded){
+                gallery2.appendChild(createLiItemHtml(OtherUserItems[x]));
+            }
+
         }
         EnableDrag("gallery2","trash2","containment-wrapper2");
     })
@@ -185,7 +188,9 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
             var gallery = document.getElementById("gallery");
             for( x in CurrentUserItems) {
                 barterController.Items_User[CurrentUserItems[x]._id] = CurrentUserItems[x];
-                gallery.appendChild(createLiItemHtml(CurrentUserItems[x]));
+                if(!CurrentUserItems[x].traded){
+                    gallery.appendChild(createLiItemHtml(CurrentUserItems[x]));
+                }
             }
             EnableDrag("gallery","trash","containment-wrapper");
         })
@@ -460,6 +465,12 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
                                     console.log("hi bob");
                                     var id = e.currentTarget.id.replace("modal_","")
                                     if(checkClick) {
+                                        socket.emit('chat', {
+                                          body: "Offer Accepted. 👍",
+                                          user: barterController.user,
+                                          special: "OD"
+                                        });
+                                        ChatSvc.sendMessage(barterController.otherUser, "Offer Accepted. 👍");
                                         window.location = "/#/createReservation-"+id;
                                     } else if (checkClick === false) {
                                         checkClick = null;
@@ -470,11 +481,11 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
                                             .then(function (stuff){
                                                 document.getElementById("modal_footer_" + id).remove();
                                                 socket.emit('chat', {
-                                                  body: "Offer declined.",
+                                                  body: "Offer declined. 👎",
                                                   user: barterController.user,
                                                   special: "OD"
                                                 });
-                                                ChatSvc.sendMessage(barterController.otherUser, "Offer declined.");
+                                                ChatSvc.sendMessage(barterController.otherUser, "Offer declined. 👎");
                                             });
                                     }
                                 });

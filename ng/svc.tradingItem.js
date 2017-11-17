@@ -66,4 +66,18 @@ angular.module("app").service("TradingItemSvc", function ($http) {
         })
   }
 
+  svc.setTradeTrueById = function(_id){
+      return $http.get("api/trading/setTradeTrueById/"+_id)
+        .then(function (response){
+            return response;
+        })
+  }
+
+  svc.setTradeFalseById = function(_id){
+      return $http.get("api/trading/setTradeFalseById/"+_id)
+        .then(function (response){
+            return response;
+        })
+  }
+
 }) /* End of ChatSvc*/

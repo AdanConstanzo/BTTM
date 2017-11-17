@@ -1,4 +1,4 @@
-angular.module('app').controller('ReservationCtrl',function($scope,$routeParams,$location,UserSvc,OfferSvc,ReservationSvc){
+angular.module('app').controller('ReservationCtrl',function($scope,$routeParams,$location,UserSvc,OfferSvc,ReservationSvc,TradingItemSvc){
     //$routeParams.id
     $(function () {
         $("#datepicker").datepicker({
@@ -26,6 +26,15 @@ angular.module('app').controller('ReservationCtrl',function($scope,$routeParams,
         }
         ReservationSvc.makeReservation($scope.reservation)
             .then(function (response) {
+                //User_offer_items
+                //User_other_items
+                for(x in response.data.User_other_items){
+                    TradingItemSvc.setTradeTrueById(response.data.User_other_items[x]);
+                }
+
+                for (x in response.data.User_offer_items) {
+                    TradingItemSvc.setTradeTrueById(response.data.User_offer_items[x]);
+                }
                 $location.path("/pendingTrades");
             })
     }

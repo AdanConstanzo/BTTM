@@ -71,7 +71,9 @@ router.get("/offers/pending/username/:username", function(req, res, next) {
             }
             res.send(offers);
         })
-})
+});
+
+
 //{$or:[{User_offer_username: req.params.username},{User_other_username: req.params.username}]}
 
 module.exports = router;

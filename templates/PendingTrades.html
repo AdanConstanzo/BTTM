@@ -1,1 +1,15 @@
 <h1>Pending Trades</h1>
+
+<div ng-repeat="x in Offers">
+    <div class="col-md-3" data-toggle="modal" data-target="#modal_{{x.TransactionPending._id}}">
+        <div class="thumbnail">
+            <img ng-src={{x.image.path200}} alt="{{x.name}}" style="height:150px; width:150px;">
+            <div class="caption">
+              <p>{{x.User_offer_username}}'s offer to {{x.User_other_username}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="appendModals">
+</div>

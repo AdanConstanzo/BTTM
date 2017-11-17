@@ -7,7 +7,8 @@ var schema = new Schema({
     image :         {type:Schema.Types.Object ,required:true},
     dateOf:         {type:Date,required:true,default: Date.now},
     user  :         {type:String,required:true},
-    user_id: {type:String, required:true}
+    user_id: {type:String, required:true},
+    traded: {type:Boolean, required: true}
 });
 
 module.exports = mongoose.model('TradingObject',schema);

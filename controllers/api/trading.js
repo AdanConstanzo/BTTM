@@ -48,7 +48,8 @@ router.post('/trading/addItem',function(req,res, next){
     description:req.body.description,
     image: {image:"nope"},
     user:req.body.user,
-    user_id: req.body.user_id
+    user_id: req.body.user_id,
+    traded: false
   });
   tempTrade.save(function(err,prog){
     if(err){return next(err)}
@@ -188,6 +189,20 @@ router.put("/trading/editItems/:id",function(req,res, next){
                 });
             }
         });
-  })
+  });
+
+  router.get("/trading/setTradeTrueById/:_id", function(req, res, next) {
+      Trade.findByIdAndUpdate({_id : req.params._id},{ traded:true},function(err,docs){
+          if(err){return next(err)}
+          res.sendStatus(200);
+        });
+  });
+
+  router.get("/trading/setTradeFalseById/:_id", function(req, res, next){
+     Trade.findByIdAndUpdate({_id: req.params._id},{traded: false},function(err,docs){
+         if(err){return next(err)}
+         res.sendStatus(200);
+     })
+  });
 
 module.exports = router;
