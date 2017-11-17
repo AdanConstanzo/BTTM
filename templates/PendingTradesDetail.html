@@ -1,0 +1,71 @@
+<center><h3>Time: {{Reservation.date.time}} Date: {{Reservation.date.day}}</h3></center>
+<br>
+<br>
+<div id="areapicker" style="width: auto; height: 350px;"></div>
+<br>
+<br>
+<div class="row">
+    <div class="col-md-5">
+        <div class="col-md-4" ng-repeat="x in UserImage" data-toggle="modal" data-target="#modal_{{x._id}}">
+            <div class="thumbnail">
+                <img ng-src={{x.image.path200}} alt="{{x.name}}" style="height:150px; width:150px;">
+                <div class="caption">
+                  <p>{{x.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <img style="width:100px;" src="images/trade.png"/>
+    </div>
+    <div class="col-md-5">
+        <div class="col-md-4" ng-repeat="x in OtherImage" data-toggle="modal" data-target="#modal_{{x._id}}">
+            <div class="thumbnail">
+                <img ng-src={{x.image.path200}} alt="{{x.name}}" style="height:150px; width:150px;">
+                <div class="caption">
+                  <p>{{x.name}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-repeat="x in UserImage" class="modal fade" id="modal_{{x._id}}" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img ng-src={{x.image.path200}} alt="{{x.name}}" style="height:150px; width:150px;">
+                <div class="caption">
+                  <p>Name: {{x.name}}</p>
+                  <p>Description</p>
+                  <p>{{x.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-repeat="x in OtherImage" class="modal fade" id="modal_{{x._id}}" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img ng-src={{x.image.path200}} alt="{{x.name}}" style="height:150px; width:150px;">
+                <div class="caption">
+                  <p>Name: {{x.name}}</p>
+                  <p>Description</p>
+                  <p>{{x.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

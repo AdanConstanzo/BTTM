@@ -1,4 +1,4 @@
-angular.module('app').controller('PendingTradesCtrl',function($scope,UserSvc,OfferSvc, TradingItemSvc){
+angular.module('app').controller('PendingTradesCtrl',function($scope,$location,UserSvc,OfferSvc, TradingItemSvc){
     // controller for pending trades
     var pendingTrades = {}
     pendingTrades.ItemMap = {};
@@ -101,8 +101,8 @@ angular.module('app').controller('PendingTradesCtrl',function($scope,UserSvc,Off
             $("#modal_" + idTemp).on("hidden.bs.modal", function(e) {
                 if(itCliked){
                     var id = e.currentTarget.id.replace("modal_","");
-                    alert(id);
                     itCliked = false;
+                    window.location = "/#/pendingTrades-details-"+id;
                 }
             });
         }
@@ -157,7 +157,7 @@ angular.module('app').controller('PendingTradesCtrl',function($scope,UserSvc,Off
         var a_yes = document.createElement("a");
         a_yes.className = "btn btn-default";
         a_yes.setAttribute("role","button");
-        a_yes.innerHTML = "View More Details";
+        a_yes.innerHTML = "View Location and Time Details";
         a_yes.setAttribute("data-dismiss","modal");
         modalDivFoot.appendChild(a_yes);
         modalFooter.appendChild(modalDivFoot);

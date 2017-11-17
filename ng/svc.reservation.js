@@ -16,4 +16,11 @@ angular.module("app").service("ReservationSvc", function ($http,OfferSvc) {
     svc.declineReservation = function(){
 
     }
+
+    svc.getReservation = function (id) {
+        return $http.get("/api/transPend/getTransPend/findOne/"+id)
+            .then(function (Reservation){
+                return Reservation.data;
+            })
+    }
 });
