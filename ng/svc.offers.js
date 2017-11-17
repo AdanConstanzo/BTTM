@@ -28,4 +28,12 @@ angular.module("app").service("OfferSvc", function ($http) {
                 return response;
             })
     }
+
+    svc.GetPendingOffers = function(Username){
+        return $http.get("/api/offers/pending/username/"+Username)
+            .then(function (Offers) {
+                return Offers.data;
+            })
+    }
+
 });

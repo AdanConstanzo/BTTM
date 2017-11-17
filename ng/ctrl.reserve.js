@@ -1,4 +1,4 @@
-angular.module('app').controller('ReservationCtrl',function($scope,$routeParams,UserSvc,OfferSvc,ReservationSvc){
+angular.module('app').controller('ReservationCtrl',function($scope,$routeParams,$location,UserSvc,OfferSvc,ReservationSvc){
     //$routeParams.id
     $(function () {
         $("#datepicker").datepicker({
@@ -26,7 +26,7 @@ angular.module('app').controller('ReservationCtrl',function($scope,$routeParams,
         }
         ReservationSvc.makeReservation($scope.reservation)
             .then(function (response) {
-                alert("Completed. Now reference to place");
+                $location.path("/pendingTrades");
             })
     }
 

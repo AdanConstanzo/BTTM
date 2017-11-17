@@ -60,6 +60,18 @@ router.put("/offers/addTransactionPending/", function(req, res, next) {
         console.log("HIT");
         res.send(docs);
     });
+});
+
+router.get("/offers/pending/username/:username", function(req, res, next) {
+    Offer.find({$or:[{User_offer_username: req.params.username},{User_other_username: req.params.username}],"TransactionPending.accepted":true})
+        .exec(function (err,offers){
+            if(offers.length <= 0) {
+                res.send({"status":"error","description":"empty query"});
+                return;
+            }
+            res.send(offers);
+        })
 })
+//{$or:[{User_offer_username: req.params.username},{User_other_username: req.params.username}]}
 
 module.exports = router;
