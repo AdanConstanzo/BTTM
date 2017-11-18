@@ -174,7 +174,8 @@
 #trash2 h4 .ui-icon { float: left; }
 #trash2 .gallery2 h5 { display: none; }
 
-.draggable { width: 90px; height: 90px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+/* The master of disguised */
+/*.draggable { width: 90px; height: 90px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }*/
 #draggable, #draggable2 { margin-bottom:20px; }
 #draggable { cursor: n-resize; }
 #draggable2 { cursor: e-resize; }

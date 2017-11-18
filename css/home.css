@@ -20,12 +20,7 @@ p{
  text-align: left ;
 }
 
-.panel {
-    border: 10px solid #333;
-    background: #ccc;
-    height:200px;
-    margin: 10px;
-    font-size: 72px;
-    text-align: center;
-    line-height: 200px;
+
+.slick-prev:before, .slick-next:before {
+    color:#84c1ff !important;
 }

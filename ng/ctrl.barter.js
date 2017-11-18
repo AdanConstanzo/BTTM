@@ -462,7 +462,6 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
                                 document.getElementById("collectionOfModals").appendChild(modalCreation[0]);
                                 $("#modal_"+event.target.id).modal();
                                 $("#modal_" + event.target.id).on("hidden.bs.modal", function(e) {
-                                    console.log("hi bob");
                                     var id = e.currentTarget.id.replace("modal_","")
                                     if(checkClick) {
                                         socket.emit('chat', {

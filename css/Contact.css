@@ -1,4 +1,4 @@
-/** {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -88,4 +88,4 @@ body {
   .section h1 {
     margin: 20px 6px;
   }
-}*/
+}

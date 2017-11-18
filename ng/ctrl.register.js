@@ -24,19 +24,19 @@ angular.module('app').controller('RegisterCtrl',function($scope,$location,UserSv
     }
 
     $scope.checkUniqueEmail = function(){
-    	if($scope.register_email.length>0){
-        UserSvc.check_email($scope.register_email).then(function(response){
-          var label = document.getElementById('register_EmailCheck');
-          if(!response)
-            label.style.display = "block";
-          else
-            label.style.display = "none";
-      	});
-
+    	if($scope.register_EmailCheck.length>0){
+            UserSvc.check_email($scope.register_EmailCheck).then(function(response){
+              var label = document.getElementById('register_EmailCheck');
+              if(!response)
+                label.style.display = "block";
+              else
+                label.style.display = "none";
+          	});
       }
     }
+
     $scope.register_username = "";
-    $scope.register_email = "";
+    $scope.register_EmailCheck = "";
     $scope.UniqueEmail = true;
     $scope.UniqueUser = true;
 });

@@ -27,7 +27,6 @@ angular.module('app').controller('PendingTradesDetailsCtrl',function($scope,$rou
     }
 
     function proccessOffer(offer){
-        console.log(offer);
         if(offer.User_offer_username === $scope.User.username){
             for(x in offer.User_offer_items){
                 TradingItemSvc.getItemById(offer.User_offer_items[x])
@@ -47,7 +46,6 @@ angular.module('app').controller('PendingTradesDetailsCtrl',function($scope,$rou
                 TradingItemSvc.getItemById(offer.User_other_items[x])
                     .then(function(Item){
                         $scope.UserImage.push(Item);
-                        console.log($scope.UserImage);
                     })
             }
 
@@ -55,7 +53,6 @@ angular.module('app').controller('PendingTradesDetailsCtrl',function($scope,$rou
                 TradingItemSvc.getItemById(offer.User_offer_items[x])
                     .then(function(Item){
                         $scope.OtherImage.push(Item);
-                        console.log($scope.OtherImage[0]._id);
                     })
             }
         }
