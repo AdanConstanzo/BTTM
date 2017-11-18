@@ -145,6 +145,13 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
             });
         }
     }
+
+    $scope.SearchBar = ""
+
+    $scope.SearchItems = function(){
+        $scope.SearchBar;
+    }
+
     //$("#cardViewSlider-"+setCode).slick({ arrows:false, dots: true, infinite: true, slidesToShow: 6, slidesToScroll: 6 });
     $scope.$on('CityItemsDone', function(ngRepeatFinishedEvent) {
         setListeners($scope.CityItems)

@@ -11,6 +11,13 @@
 <div id="allItemDiv">
 </div>
 
+<br>
+<div id="Home_SearchBarDiv">
+    <form  ng-submit="SearchItems()">
+        <input type="text" ng-model="SearchBar"name="search" placeholder="Search..">
+    </form>
+</div>
+
 <div ng-repeat="x in CityItems" class="modal fade" id="modal_{{x._id}}" on-finish-render="CityItemsDone" >
     <div class="modal-dialog">
         <div class="modal-content">

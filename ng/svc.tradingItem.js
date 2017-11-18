@@ -108,4 +108,8 @@ angular.module("app").service("TradingItemSvc", function ($http) {
         })
   }
 
+  svc.getSearchItem = function(Search){
+      return $http.get("api/trading/getSearchItem/"+Search)
+  }
+
 }) /* End of ChatSvc*/
