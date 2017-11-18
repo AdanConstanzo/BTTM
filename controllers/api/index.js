@@ -13,5 +13,6 @@ router.use(require("./geo"));
 router.use(require("./offer"));
 router.use(require("./reservation"));
 router.use(require("./itemSearch"));
+router.use(require("./messageList"));
 
 module.exports = router;
