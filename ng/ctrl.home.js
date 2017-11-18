@@ -121,7 +121,6 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
             divTemp.appendChild(imgTempName);
             section.appendChild(divTemp);
   		}
-        console.log(scopeArray);
   		// adds to collection of slider div
   		var sliderCollection = document.createElement("div");
         sliderCollection.id = "home_near_by_" + newSetCode;
@@ -149,7 +148,15 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
     $scope.SearchBar = ""
 
     $scope.SearchItems = function(){
-        $scope.SearchBar;
+        var search = $scope.SearchBar
+        TradingItemSvc.getSearchItem(search)
+            .then(function (Items){
+                var temp = document.createElement("div");
+                var div = document.getElementById("Home_TargetSearchDiv");
+                div.appendChild(temp);
+                $scope.temp = []
+                makeSliderHtml(Items,search,"All Items of keyword: "+search,false,temp,$scope.temp);
+            })
     }
 
     //$("#cardViewSlider-"+setCode).slick({ arrows:false, dots: true, infinite: true, slidesToShow: 6, slidesToScroll: 6 });

@@ -25,7 +25,7 @@ p{
     color:#84c1ff !important;
 }
 
-input[type=text] {
+#home_search_bar[type=text] {
     width: 130px;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -39,7 +39,7 @@ input[type=text] {
     transition: width 0.4s ease-in-out;
 }
 
-input[type=text]:focus {
+#home_search_bar[type=text]:focus {
     width: 100%;
 }
 

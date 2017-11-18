@@ -109,7 +109,11 @@ angular.module("app").service("TradingItemSvc", function ($http) {
   }
 
   svc.getSearchItem = function(Search){
-      return $http.get("api/trading/getSearchItem/"+Search)
+      ///itemSearch/search/:name
+      return $http.get("api/itemSearch/search/"+Search)
+        .then(function (response){
+            return response.data;
+        })
   }
 
 }) /* End of ChatSvc*/
