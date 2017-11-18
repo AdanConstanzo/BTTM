@@ -1,8 +1,11 @@
 angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,GeoSvc,TradingItemSvc){
 
     $scope.UserCity = "";
-    $scope.Items = [];
+    $scope.CityItems = [];
+    $scope.AllItems = [];
     $scope.HomeCtrlRedirect = false;
+    var home_cityDom = document.getElementById("cityDiv"),
+    home_allItemDom = document.getElementById("allItemDiv")
 
     var str = localStorage.getItem("usr-loc");
     var usr_loc_obj = JSON.parse(str);
@@ -22,6 +25,7 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
     }
 
 
+
     function getItemsByCityState(){
         UserSvc.hasSession()
             .then(function(hasSession){
@@ -31,14 +35,23 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
                             TradingItemSvc.getItemFromCityStateAvoidUser(usr_loc_obj,SessionName)
                                 .then(function(Items){
                                     var cityState = usr_loc_obj.city+", "+usr_loc_obj.state;
-                                    makeSliderHtml(combineNestedArrays(Items),usr_loc_obj.city,cityState);
+                                    makeSliderHtml(combineNestedArrays(Items),usr_loc_obj.city,cityState,true,home_cityDom,$scope.CityItems);
                                 });
+                            TradingItemSvc.getAllItemsBut(SessionName)
+                                .then(function(AllItems){
+                                    console.log(AllItems);
+                                    makeSliderHtml(AllItems,"All Items","All Items",false,home_allItemDom,$scope.AllItems);
+                                })
                         });
                 } else {
                     TradingItemSvc.getItemFromCityState(usr_loc_obj)
                         .then(function (Items){
                             var cityState = usr_loc_obj.city+", "+usr_loc_obj.state;
-                            makeSliderHtml(combineNestedArrays(Items),usr_loc_obj.city,cityState);
+                            makeSliderHtml(combineNestedArrays(Items),usr_loc_obj.city,cityState,true,home_cityDom,$scope.CityItems);
+                        });
+                    TradingItemSvc.getAllItems()
+                        .then(function(AllItems){
+                            makeSliderHtml(AllItems,"All Items","All Items",false,home_allItemDom,$scope.AllItems);
                         })
                 }
             })
@@ -79,19 +92,23 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
             });
     }
 
-    function makeSliderHtml(array,setCode,cityState){
-        var itemDiv = document.getElementById("itemDiv");
+    function makeSliderHtml(array,setCode,cityState,City,Dom,scopeArray){
         var ItemTitle = document.createElement("div");
         ItemTitle.className = "Home_Title";
-        ItemTitle.innerHTML = "Neary by Trades at City " + cityState +"<hr />";
-        itemDiv.appendChild(ItemTitle);
+        if(City){
+            ItemTitle.innerHTML = "Neary by Trades at City " + cityState +"<hr />";
+        } else {
+            ItemTitle.innerHTML = cityState +"<hr />";
+        }
+
+        Dom.appendChild(ItemTitle);
         var newSetCode = setCode.replace(/\s+/g, '_');
   		var section = document.createElement("section")
 		section.id = "itemView-"+newSetCode;
   		section.class = "regular slider";
 		// loops through cards and create div and images
   		for(x in array){
-            $scope.Items.push(array[x]);
+            scopeArray.push(array[x]);
             var divTemp = document.createElement("div"),
             imgTemp = document.createElement("img"),
             imgTempName = document.createElement("p");
@@ -104,11 +121,12 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
             divTemp.appendChild(imgTempName);
             section.appendChild(divTemp);
   		}
+        console.log(scopeArray);
   		// adds to collection of slider div
   		var sliderCollection = document.createElement("div");
         sliderCollection.id = "home_near_by_" + newSetCode;
   		sliderCollection.appendChild(section);
-        itemDiv.appendChild(sliderCollection);
+        Dom.appendChild(sliderCollection);
 		// initialize the slider
   		$("#itemView-"+newSetCode).slick({ arrows:true, dots: true, infinite: true, slidesToShow: 3, slidesToScroll: 3 });
     }
@@ -128,10 +146,12 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
         }
     }
     //$("#cardViewSlider-"+setCode).slick({ arrows:false, dots: true, infinite: true, slidesToShow: 6, slidesToScroll: 6 });
-    $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-        setListeners($scope.Items)
-        //you also get the actual event object
-        //do stuff, execute functions -- whatever...
+    $scope.$on('CityItemsDone', function(ngRepeatFinishedEvent) {
+        setListeners($scope.CityItems)
+    });
+
+    $scope.$on("allItemsDone",function(ngRepeatFinishedEvent) {
+        setListeners($scope.AllItems)
     });
 
 });

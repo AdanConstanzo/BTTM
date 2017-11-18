@@ -38,7 +38,7 @@ angular.module("app").service("TradingItemSvc", function ($http) {
 
   // get all but user
   svc.getAllItemsBut = function(UserName){
-      return $http.get("api/trading/getAllItemsBut/"+us)
+      return $http.get("api/trading/getAllItemsBut/"+UserName)
         .then(function (Items){
             return Items.data;
         })

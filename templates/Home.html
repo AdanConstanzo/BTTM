@@ -6,11 +6,38 @@
 <p ng-if="UserGeo == null">Location: Can't Determine Location  <span class="glyphicon glyphicon-refresh" ng-click="GetLocation()" aria-hidden="true"></span></p>
 <!-- <button class="btn btn-default" type="submit">Button</button> -->
 <!-- glyphicon glyphicon-refresh -->
-<div id="itemDiv">
+<div id="cityDiv">
+</div>
+<div id="allItemDiv">
 </div>
 
+<div ng-repeat="x in CityItems" class="modal fade" id="modal_{{x._id}}" on-finish-render="CityItemsDone" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img ng-src={{x.image.path200}} alt="{{x.name}}" style="height:150px; width:150px;">
+                <div class="caption">
+                  <p>Name: {{x.name}}</p>
+                  <p>Description</p>
+                  <p>{{x.description}}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="" data-dismiss="modal" id="a_{{x._id}}" >
+                <h3>Go barter with <span style="font-size:35px">{{x.user}}</span> for this item!</h3>
+                <h3>Click to barter!</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div ng-repeat="x in Items" class="modal fade" id="modal_{{x._id}}" on-finish-render="ngRepeatFinished" >
+<div ng-repeat="x in AllItems" class="modal fade" id="modal_{{x._id}}" on-finish-render="allItemsDone" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
