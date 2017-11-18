@@ -3,6 +3,58 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
     $scope.UserCity = "";
     $scope.Items = [];
     $scope.HomeCtrlRedirect = false;
+
+    var str = localStorage.getItem("usr-loc");
+    var usr_loc_obj = JSON.parse(str);
+
+    $scope.GetLocation = function(){
+        getLocation();
+    }
+
+    // condition to check if there is a current geo locator.
+    // will call function. If not. Will grab trading data form database.
+    if (usr_loc_obj === null || usr_loc_obj.status === "ERROR") {
+        getLocation();
+        getItemsByCityState();
+    } else {
+        $scope.UserGeo = usr_loc_obj;
+        getItemsByCityState();
+    }
+
+
+    function getItemsByCityState(){
+        UserSvc.hasSession()
+            .then(function(hasSession){
+                if(hasSession){
+                    UserSvc.returnSessionUserName()
+                        .then(function(SessionName){
+                            TradingItemSvc.getItemFromCityStateAvoidUser(usr_loc_obj,SessionName)
+                                .then(function(Items){
+                                    var cityState = usr_loc_obj.city+", "+usr_loc_obj.state;
+                                    makeSliderHtml(combineNestedArrays(Items),usr_loc_obj.city,cityState);
+                                });
+                        });
+                } else {
+                    TradingItemSvc.getItemFromCityState(usr_loc_obj)
+                        .then(function (Items){
+                            var cityState = usr_loc_obj.city+", "+usr_loc_obj.state;
+                            makeSliderHtml(combineNestedArrays(Items),usr_loc_obj.city,cityState);
+                        })
+                }
+            })
+    }
+
+
+    function combineNestedArrays(Input){
+        var array = [];
+        for(x in Input){
+            for(y in Input[x]){
+                array.push(Input[x][y]);
+            }
+        }
+        return array;
+    }
+
     // A function that gets the current geolocaiton. If not. Will return error.
     function getLocation() {
         if (navigator.geolocation) {
@@ -27,69 +79,38 @@ angular.module("app").controller("HomeCtrl", function($scope,$rootScope,UserSvc,
             });
     }
 
-    var str = localStorage.getItem("usr-loc");
-    var usr_loc_obj = JSON.parse(str);
-
-    // condition to check if there is a current geo locator.
-    // will call function. If not. Will grab trading data form database.
-    if (usr_loc_obj === null || usr_loc_obj.status === "ERROR") {
-        getLocation();
-    } else {
-        $scope.UserGeo = usr_loc_obj;
-        TradingItemSvc.getItemFromCityState(usr_loc_obj)
-            .then(function (ItemsInCity) {
-                UserSvc.hasSession()
-                    .then(function(response){
-                        if(response){
-                            UserSvc.returnSessionUserName()
-                                .then(function(username){
-                                    var cityState = usr_loc_obj.city+", "+usr_loc_obj.state;
-                                    makeSliderHtml(ItemsInCity[0],usr_loc_obj.city,cityState,username);
-                                });
-                        } else {
-                            var cityState = usr_loc_obj.city+", "+usr_loc_obj.state;
-                            makeSliderHtml(ItemsInCity[0],usr_loc_obj.city,cityState);
-                        }
-                    });
-            });
-    }
-
-    function makeSliderHtml(array,setCode,cityState,username){
-
+    function makeSliderHtml(array,setCode,cityState){
         var itemDiv = document.getElementById("itemDiv");
-        //<div class="Home_Title"> Nearyby Trades by City<hr /></div>
         var ItemTitle = document.createElement("div");
         ItemTitle.className = "Home_Title";
         ItemTitle.innerHTML = "Neary by Trades at City " + cityState +"<hr />";
         itemDiv.appendChild(ItemTitle);
-
+        var newSetCode = setCode.replace(/\s+/g, '_');
   		var section = document.createElement("section")
-		section.id = "itemView-"+setCode;
+		section.id = "itemView-"+newSetCode;
   		section.class = "regular slider";
 		// loops through cards and create div and images
   		for(x in array){
-            if(array[x].user !== username){
-                $scope.Items.push(array[x]);
-      			var divTemp = document.createElement("div"),
-      			imgTemp = document.createElement("img"),
-                imgTempName = document.createElement("p");
-      			imgTemp.src = array[x].image.path200;
-      			imgTemp.id = "item-"+array[x]._id;
-                imgTemp.setAttribute("data-toggle","modal");
-                imgTemp.setAttribute("data-target","#modal_"+array[x]._id);
-                imgTempName.innerHTML = array[x].name;
-      			divTemp.appendChild(imgTemp);
-                divTemp.appendChild(imgTempName);
-      			section.appendChild(divTemp);
-            }
+            $scope.Items.push(array[x]);
+            var divTemp = document.createElement("div"),
+            imgTemp = document.createElement("img"),
+            imgTempName = document.createElement("p");
+            imgTemp.src = array[x].image.path200;
+            imgTemp.id = "item-"+array[x]._id;
+            imgTemp.setAttribute("data-toggle","modal");
+            imgTemp.setAttribute("data-target","#modal_"+array[x]._id);
+            imgTempName.innerHTML = array[x].name;
+            divTemp.appendChild(imgTemp);
+            divTemp.appendChild(imgTempName);
+            section.appendChild(divTemp);
   		}
   		// adds to collection of slider div
   		var sliderCollection = document.createElement("div");
-        sliderCollection.id = "home_near_by_" + setCode;
+        sliderCollection.id = "home_near_by_" + newSetCode;
   		sliderCollection.appendChild(section);
         itemDiv.appendChild(sliderCollection);
 		// initialize the slider
-  		$("#itemView-"+setCode).slick({ arrows:true, dots: true, infinite: true, slidesToShow: 3, slidesToScroll: 3 });
+  		$("#itemView-"+newSetCode).slick({ arrows:true, dots: true, infinite: true, slidesToShow: 3, slidesToScroll: 3 });
     }
 
     function setListeners(array){

@@ -48,7 +48,8 @@ angular.module('app').controller('PendingTradesCtrl',function($scope,$location,U
     }
 
     function getUserImage(){
-        var count = 1;
+        console.log("This hit");
+        var count = 0;
         for (x in pendingTrades.Offers){
             if(pendingTrades.Offers[x].User_offer_username === pendingTrades.user.username) {
                 UserSvc.getUserOpenInfo(pendingTrades.Offers[x].User_other_username)
@@ -190,9 +191,3 @@ angular.module('app').controller('PendingTradesCtrl',function($scope,$location,U
     }
 
 }); // end of controller
-
-/*
-
-*/
-
-//barterController.Items_User[CurrentUserItems[x]._id] = CurrentUserItems[x];

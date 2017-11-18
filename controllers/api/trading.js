@@ -93,6 +93,22 @@ router.put("/trading/updateImage/:_id",upload.any(), function(req,res,next) {
     });
 })
 
+// gets all items
+router.get("/trading/getAllItems/", function(req, res, next) {
+    Trade.find()
+        .exec(function (err,trading){
+            res.send(trading);
+        })
+});
+
+// returns all but user name.
+router.get("/trading/getAllItemsBut/:username", function(req,res,next){
+    Trade.find({"user":{"$ne":req.params.username}})
+        .exec(function (err,trading){
+            res.send(trading);
+        })
+})
+
 // returns all items of the user
 router.get("/trading/getItems/:username",function(req,res,next){
   var username = req.params.username;
@@ -161,7 +177,7 @@ router.put("/trading/editItems/:id",function(req,res, next){
       res.sendStatus(200);
     });
 });
-
+// grabs everyones items in city-state.
   router.get("/trading/grabItemByCity-State/:city"+"-"+":state", function (req,res,next) {
       var p_city = req.params.city;
       var p_state = req.params.state;
@@ -174,6 +190,7 @@ router.put("/trading/editItems/:id",function(req,res, next){
                 res.send([{"status":"ERROR","description":"no users in current location"}]);
                 return;
             }
+
             Collection.push({"status":"OK"});
             for(x in Users) {
                 Trade.find({"user_id": Users[x]._id})
@@ -184,6 +201,32 @@ router.put("/trading/editItems/:id",function(req,res, next){
 
                     count ++;
 
+                    if(count === Users.length)
+                        res.send(Collection);
+                });
+            }
+        });
+  });
+
+// grabs city,state location items but avoids username.
+ router.get("/trading/grabItemByCity-State/avoid-:username/:city"+"-"+":state", function (req,res,next) {
+      var p_city = req.params.city;
+      var p_state = req.params.state;
+      var Collection = [];
+      var count = 0;
+      User.find({"username":{"$ne":req.params.username},"location.city": p_city, "location.state": p_state})
+        .exec(function (err,Users) {
+            if(!Users || Users.length === 0) {
+                res.send([{"status":"ERROR","description":"no users in current location"}]);
+                return;
+            }
+            Collection.push({"status":"OK"});
+            for(x in Users) {
+                Trade.find({"user_id": Users[x]._id})
+                .exec(function (err,Items) {
+                    if (Items.length > 0 )
+                        Collection.push(Items);
+                    count ++;
                     if(count === Users.length)
                         res.send(Collection);
                 });

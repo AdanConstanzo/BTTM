@@ -48,16 +48,13 @@ router.post("/offers/make/", function (req, res, next) {
 
 router.put("/offers/addTransactionPending/", function(req, res, next) {
     var offerPendingObject = {};
-    console.log(req.body);
     if(req.body.offerStatus === "accepted") {
         offerPendingObject.accepted = true;
         offerPendingObject._id = req.body.TransactionPendingId;
     } else {
-        console.log("hi");
         offerPendingObject.accepted = false;
     }
     Offer.findByIdAndUpdate({_id:req.body.offerId},{TransactionPending:offerPendingObject},function(err,docs){
-        console.log("HIT");
         res.send(docs);
     });
 });

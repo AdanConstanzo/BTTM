@@ -2,9 +2,10 @@
 <h1> Welcome to Barter to the Max</h1>
 </center>
 
-<p ng-if="UserGeo != null">Location: {{UserGeo.city}}, {{UserGeo.state}}</p>
-<p ng-if="UserGeo == null">Location: Can't Determine Location</p>
-
+<p ng-if="UserGeo != null">Location: {{UserGeo.city}}, {{UserGeo.state}}  <span class="glyphicon glyphicon-refresh" ng-click="GetLocation()" aria-hidden="true"></span></p>
+<p ng-if="UserGeo == null">Location: Can't Determine Location  <span class="glyphicon glyphicon-refresh" ng-click="GetLocation()" aria-hidden="true"></span></p>
+<!-- <button class="btn btn-default" type="submit">Button</button> -->
+<!-- glyphicon glyphicon-refresh -->
 <div id="itemDiv">
 </div>
 

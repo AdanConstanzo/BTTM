@@ -28,6 +28,22 @@ angular.module("app").service("TradingItemSvc", function ($http) {
         });
   }
 
+  // gets all items form database
+  svc.getAllItems = function(){
+      return $http.get("api/trading/getAllItems/")
+        .then(function (allItems){
+            return allItems.data;
+        });
+  }
+
+  // get all but user
+  svc.getAllItemsBut = function(UserName){
+      return $http.get("api/trading/getAllItemsBut/"+us)
+        .then(function (Items){
+            return Items.data;
+        })
+  }
+
   // /trading/getItems/findOne/:id
   svc.getItemById = function (id) {
       return $http.get("api/trading/getItems/findOne/"+id)
@@ -56,6 +72,18 @@ angular.module("app").service("TradingItemSvc", function ($http) {
 
   svc.getItemFromCityState = function (GeoObject) {
       return $http.get("api/trading/grabItemByCity-State/"+GeoObject.city+"-"+GeoObject.state)
+        .then(function (response) {
+            if(response.data[0].status === "ERROR") {
+                return response.data;
+            } else {
+                response.data.shift();
+                return response.data;
+            }
+        })
+  }
+
+  svc.getItemFromCityStateAvoidUser = function(GeoObject,UserName){
+      return $http.get("api/trading/grabItemByCity-State/avoid-"+UserName+"/"+GeoObject.city+"-"+GeoObject.state)
         .then(function (response) {
             if(response.data[0].status === "ERROR") {
                 return response.data;

@@ -26,7 +26,6 @@ router.get("/transPend/getTransPend/findOne/:id",function(req,res,next){
   TransactionPend.findOne({_id: req.params.id})
   .exec(function(err,user){
     if(err) {
-      console.log("err in func");
       res.json({"error": "oh no."})
       return;
     }
@@ -48,7 +47,6 @@ router.get("/transPend/getTransPend/:client_aID",function(req,res,next){
     }
 
       if(user.length == 0){
-        console.log("hi bob")
         res.sendStatus(401);
         return;
       }

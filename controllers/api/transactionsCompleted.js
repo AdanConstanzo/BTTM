@@ -47,7 +47,6 @@ router.get("/transCom/getTransCom/:client_aID",function(req,res,next){
     }
 
       if(user.length == 0){
-        console.log("hi bob")
         res.sendStatus(401);
         return;
       }
