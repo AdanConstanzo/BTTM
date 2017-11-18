@@ -3,6 +3,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
   var barterController = {};
   barterController.otherUser = $routeParams.otheruser;
   barterController.user = "";
+  barterController.userTag = ""
   $scope.otherUser = barterController.otherUser;
   $scope.CurrentUserItems = null;
   barterController.UserItems = [];
@@ -179,10 +180,18 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
       }
   }
 
+  function greaterString(s1,s2){
+    if(s1>s2)
+      return [s1,s2];
+    return [s2,s1];
+  }
 
   // get's current user's name.
   UserSvc.returnSessionUserName().then(function (userName) {
+      var stringParams = greaterString(userName,$routeParams.otheruser);
+      barterController.userTag = stringParams[0]+'-'+stringParams[1];
     barterController.user = userName;
+    //barterController.userTag
     TradingItemSvc.getAllUserTradingItems(userName)
         .then(function (CurrentUserItems) {
             var gallery = document.getElementById("gallery");
@@ -213,7 +222,8 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
       if (event.keyCode == 13 && message.value != "") {
         socket.emit('chat', {
           body: message.value,
-          user: barterController.user
+          user: barterController.user,
+          tag: barterController.userTag
         });
         ChatSvc.sendMessage(barterController.otherUser, message.value);
         message.value = "";
@@ -222,7 +232,10 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
 
   // Listen for events
   socket.on('chat', function (data) {
-      createBubble(data);
+      if(data.tag === barterController.userTag){
+          createBubble(data);
+      }
+
   });
 
   // creates bubble based on User and Body
@@ -302,7 +315,8 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
             socket.emit('chat', {
               body: message,
               user: barterController.user,
-              offerId: docId
+              offerId: docId,
+              tag: barterController.userTag
             });
             ChatSvc.sendMessageWithOfferID(barterController.otherUser, message,docId);
             removeItems();
@@ -467,7 +481,8 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
                                         socket.emit('chat', {
                                           body: "Offer Accepted. 👍",
                                           user: barterController.user,
-                                          special: "OD"
+                                          special: "OD",
+                                          tag: barterController.userTag
                                         });
                                         ChatSvc.sendMessage(barterController.otherUser, "Offer Accepted. 👍");
                                         window.location = "/#/createReservation-"+id;
@@ -482,7 +497,8 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
                                                 socket.emit('chat', {
                                                   body: "Offer declined. 👎",
                                                   user: barterController.user,
-                                                  special: "OD"
+                                                  special: "OD",
+                                                  tag: barterController.userTag
                                                 });
                                                 ChatSvc.sendMessage(barterController.otherUser, "Offer declined. 👎");
                                             });
