@@ -212,7 +212,7 @@ angular.module("app").controller("BarterCtrl", function ($scope, $routeParams, $
     }
   })
 
-  var socket = io.connect("http://localhost:3000");
+  var socket = io.connect("https://lit-ridge-83847.herokuapp.com");
   // Query DOM
   var message = document.getElementById('barter_input_message');
   // Emit events

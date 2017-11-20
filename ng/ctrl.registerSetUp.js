@@ -37,7 +37,7 @@ angular.module('app').controller('RegisterSetupCtrl',function($scope,UserSvc){
 
   // modifys window (browser) url change event.
   window.onhashchange = function(event){
-    if(event.oldURL == "http://localhost:3000/#/register-setup"){
+    if(event.oldURL == "https://lit-ridge-83847.herokuapp.com/#/register-setup"){
       UserSvc.destoryRegisterSession();
     }
   }
