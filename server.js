@@ -6,7 +6,7 @@ var app = express();
 app.use(require('./controllers'));
 app.set('port',(process.env.PORT||3000));
 
-var connection = 'localhost:27017/bttm'
+var connection = "mongodb://danconable:supportftw117@ds127842.mlab.com:27842/bttm"
 
 mongoose.connect(connection,function(){
 	console.log("mongoose is connected")
